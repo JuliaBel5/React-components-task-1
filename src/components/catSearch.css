@@ -1,0 +1,174 @@
+
+body {
+  background-image: url('https://images.pexels.com/photos/1303092/pexels-photo-1303092.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-image: url('https://plus.unsplash.com/premium_photo-1673541162114-3c39f7f1235c?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjMzfHxsaWdodCUyMHllbGxvdyUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D');
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  
+}
+
+.input-container input {
+  margin-bottom: 10px;
+  max-width: 90%;
+  border-radius: 10px;
+}
+
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
+
+.result-card {
+  flex: 1 0 auto;
+  min-width: 200px;
+  border: 2px solid rgb(107, 100, 100);
+  color:rgb(75, 65, 65);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  background:linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.result-card:hover {
+  background:linear-gradient(to right, #ddf7bf,  #e3f6c4 50%,  #ebffdf 50%,  #ebf3e7 100%);
+  border: 2px solid rgb(15, 13, 13);
+  color:rgb(15, 13, 13);
+  transition: 0.4s;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.result-card img {
+  
+  max-height: 300px;
+  max-width: 80%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+img:hover{
+  transform: scale(1.08);
+  transition-duration: 0.4s;
+  border: 2px solid rgb(8, 82, 23);
+  cursor: pointer;
+}
+
+@media (min-width: 1100px) {
+  .result-card {
+    flex-basis: calc(25% - 20px);
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1099px) {
+  .result-card {
+    flex-basis: calc(33.33% - 20px);
+  }
+}
+
+@media (min-width: 500px) and (max-width: 699px) {
+  .result-card {
+    flex-basis: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 499px) {
+  .result-card {
+    flex-basis: 100%;
+  }
+}
+.description {
+  width: 90%;
+  font-size: 16px;
+  text-align: justify;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.temperament {
+  width: 90%;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.title {
+  font-size: 28px;
+}
+
+.gradient-button {
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf ) ;
+  border: 2px solid #ccc;
+  color: rgb(19, 1, 1);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(to left, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf);
+  color: rgb(216, 21, 21);
+  border: 2px solid rgb(27, 21, 21);
+  transition: 0.4s;
+}
+
+.pagination-button {
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
+  border-radius: 50px;
+  border:  2px solid #ccc;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.pagination-button:hover {
+  background: linear-gradient(to left, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf);
+  border: 2px solid rgb(27, 21, 21);
+  transition: 0.4s;
+}
+
+.error-message {
+  width: 400px;
+  height: 200px;
+  color: rgb(218, 70, 70);
+  text-align: center;
+  font-size: 44px;
+  border: 2px solid rgb(66, 6, 6); 
+  padding: 10px; 
+  transition: all 0.3s ease;
+  background-image: url('https://img.freepik.com/premium-photo/sad-poor-kitten-rain-digital-illustration-painting_743855-3730.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  display: flex;  
+  justify-content: center;  
+  align-items: flex-end; 
+}
+
+.error-message:hover {
+  background-color: #ffffdf; 
+  color: rgb(244, 149, 25); 
+  transform: rotate(360deg); 
+}
