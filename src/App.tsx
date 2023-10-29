@@ -6,11 +6,8 @@ export class App extends Component<
   React.ComponentPropsWithoutRef<'div'>,
   { error: boolean }
 > {
-  constructor(props: React.ComponentPropsWithoutRef<'div'>) {
-    super(props)
-    this.state = {
-      error: false,
-    }
+  state: { error: boolean } = {
+    error: false,
   }
 
   render() {
@@ -24,7 +21,7 @@ export class App extends Component<
           onClick={() => this.setState({ error: true })}
           className="gradient-button "
         >
-          Я не люблю кошек!
+          I don't like cats!
         </button>{' '}
         <CatList />
       </div>

@@ -9,10 +9,7 @@ export class ErrorBoundary extends Component<
     return { hasError: true }
   }
 
-  constructor(props: ErrorBoundaryProps) {
-    super(props)
-    this.state = { hasError: false }
-  }
+  state: ErrorBoundaryState = { hasError: false }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error(error, errorInfo)

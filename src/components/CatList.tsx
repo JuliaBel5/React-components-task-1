@@ -9,15 +9,12 @@ import { SearchInput } from './SearchInput'
 const catCard = new CatService()
 
 export class CatList extends Component<CatSearchProps, CatSearchState> {
-  constructor(props: CatSearchProps) {
-    super(props)
-    this.state = {
-      searchTerm: localStorage.getItem('searchTerm') ?? '',
-      searchResults: [],
-      currentPage: 1,
-      totalPages: 1,
-      isLoading: false,
-    }
+  state: CatSearchState = {
+    searchTerm: localStorage.getItem('searchTerm') ?? '',
+    searchResults: [],
+    currentPage: 1,
+    totalPages: 1,
+    isLoading: false,
   }
 
   componentDidMount() {
