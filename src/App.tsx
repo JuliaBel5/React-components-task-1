@@ -24,7 +24,7 @@ export class App extends Component<
           onClick={() => this.setState({ error: true })}
           className="gradient-button "
         >
-          Сделать некрасиво
+          Я не люблю кошек!
         </button>{' '}
         <CatList />
       </div>

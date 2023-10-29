@@ -1,8 +1,8 @@
 import './catSearch.css'
 import { Component } from 'react'
-import MoonLoader from 'react-spinners/MoonLoader'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
+import { MoonSpinner } from './MoonSpinner'
 import { Pagination } from './Pagination'
 import { SearchInput } from './SearchInput'
 
@@ -91,7 +91,7 @@ export class CatList extends Component<CatSearchProps, CatSearchState> {
           handleKeyPress={this.handleKeyPress}
         />
         <div className="results-container">
-          {isLoading ? <MoonLoader color="#f31b1b" size={80} /> : breeds}
+          {isLoading ? <MoonSpinner /> : breeds}
         </div>
 
         <Pagination
