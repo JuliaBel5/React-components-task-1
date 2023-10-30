@@ -37,7 +37,7 @@ export class CatList extends Component<CatSearchProps, CatSearchState> {
 
   handleSearchButtonClick = () => {
     const { searchTerm } = this.state
-    localStorage.setItem('searchTerm', searchTerm)
+    localStorage.setItem('searchTerm', searchTerm.trim())
     this.setState({ currentPage: 1 })
     this.searchCat({
       breed: searchTerm.trim(),
