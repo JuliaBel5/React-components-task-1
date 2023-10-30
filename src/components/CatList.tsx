@@ -38,11 +38,10 @@ export class CatList extends Component<CatSearchProps, CatSearchState> {
   handleSearchButtonClick = () => {
     const { searchTerm } = this.state
     localStorage.setItem('searchTerm', searchTerm)
-    this.setState({ currentPage: 1, isLoading: true })
+    this.setState({ currentPage: 1 })
     this.searchCat({
       breed: searchTerm.trim(),
     })
-    this.setState({ isLoading: false })
   }
 
   handleKeyPress = (event: { key: string }) => {
