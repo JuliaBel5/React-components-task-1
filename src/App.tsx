@@ -1,30 +1,22 @@
 import './App.css'
-import { Component } from 'react'
+import { useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import { CatList } from './components/CatList'
 
-export class App extends Component<
-  React.ComponentPropsWithoutRef<'div'>,
-  { error: boolean }
-> {
-  state: { error: boolean } = {
-    error: false,
+export const App: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
+  const [error, setError] = useState(false)
+
+  if (error) {
+    throw new Error('БУММММММММММММММ')
   }
 
-  render() {
-    const { error } = this.state
-    if (error) {
-      throw new Error('БУММММММММММММММ')
-    }
-    return (
-      <div className="App">
-        <button
-          onClick={() => this.setState({ error: true })}
-          className="gradient-button "
-        >
-          I don't like cats!
-        </button>{' '}
-        <CatList />
-      </div>
-    )
-  }
+  return (
+    <div className="App">
+      <button onClick={() => setError(true)} className="gradient-button ">
+        I don't like cats!
+      </button>{' '}
+      <CatList />
+      <Outlet />
+    </div>
+  )
 }

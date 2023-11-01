@@ -29,11 +29,17 @@ body {
   color: #157A6E;
 }
 
-.results-container {
+.search-results  {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
+    justify-content: space-between;
+ 
+}
+
+.results-container {
+   display: flex;
+flex-wrap: wrap;
+justify-content: center;
+padding: 20px;
 }
 
 .result-card {
@@ -66,6 +72,39 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+
+.cat-card {
+  flex: 1 2 auto;
+  min-width: 200px;
+  max-height: 500px;
+  border: 2px solid rgb(107, 100, 100);
+  color:rgb(75, 65, 65);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  background:linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.cat-card:hover {
+  background:linear-gradient(to right, #ddf7bf,  #e3f6c4 50%,  #ebffdf 50%,  #ebf3e7 100%);
+  border: 2px solid rgb(15, 13, 13);
+  color:rgb(15, 13, 13);
+  transition: 0.4s;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.cat-card img {
+  
+  max-height: 300px;
+  max-width: 80%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 img:hover{
   transform: scale(1.08);
   transition-duration: 0.4s;

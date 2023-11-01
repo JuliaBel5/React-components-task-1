@@ -1,5 +1,6 @@
 import './catSearch.css'
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
+import { CatCard } from '../routes/CatCard'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
@@ -8,96 +9,84 @@ import { SearchInput } from './SearchInput'
 
 const catCard = new CatService()
 
-export class CatList extends Component<CatSearchProps, CatSearchState> {
-  state: CatSearchState = {
-    searchTerm: localStorage.getItem('searchTerm') ?? '',
-    searchResults: [],
-    currentPage: 1,
-    totalPages: 1,
-    isLoading: false,
-  }
+export const CatList: React.FC<CatSearchProps> = () => {
+  const [searchTerm, setSearchTerm] = useState<string>(
+    localStorage.getItem('searchTerm') ?? '',
+  )
+  const [searchResults, setSearchResults] = useState<CatBreed[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedCat, setSelectedCat] = useState<CatBreed | null>(null)
 
-  componentDidMount() {
-    const { searchTerm } = this.state
+  useEffect(() => {
+    searchCat({ page: currentPage })
+  }, [currentPage])
 
-    this.searchCat({
-      breed: searchTerm,
-    })
-  }
-
-  componentDidUpdate(_prevProps: CatSearchProps, prevState: CatSearchState) {
-    const { searchTerm, currentPage } = this.state
-    if (prevState.currentPage !== currentPage) {
-      this.searchCat({
-        page: currentPage,
-        breed: searchTerm,
-      })
-    }
-  }
-
-  handleSearchButtonClick = () => {
-    const { searchTerm } = this.state
+  const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
-    this.setState({ currentPage: 1 })
-    this.searchCat({
-      breed: searchTerm.trim(),
-    })
+    setCurrentPage(1)
+    setSelectedCat(null)
+    searchCat({ breed: searchTerm.trim() })
   }
 
-  handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') this.handleSearchButtonClick()
+  const handleKeyPress = (event: { key: string }) => {
+    if (event.key === 'Enter') handleSearchButtonClick()
   }
 
-  handleSearchInputChange = (event: { target: { value: string } }) => {
-    this.setState({ searchTerm: event.target.value })
+  const handleSearchInputChange = (event: { target: { value: string } }) => {
+    setSearchTerm(event.target.value)
   }
 
-  handlePageChange = (page: number) => {
-    this.setState((prevState) => ({ ...prevState, currentPage: page }))
+  const handleCatClick = (cat: CatBreed) => {
+    setSelectedCat(cat)
   }
 
-  async searchCat({ page = 1, breed = '' } = {}) {
-    this.setState({ isLoading: true })
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    setSelectedCat(null)
+  }
+
+  const searchCat = async ({ page = 1, breed = '' } = {}) => {
+    setIsLoading(true)
     const response = await catCard.getCats({ breed, page })
 
-    this.setState({
-      searchResults: response.items,
-      totalPages: response.meta.total_pages,
-      isLoading: false,
-    })
+    setSearchResults(response.items)
+    setTotalPages(response.meta.total_pages)
+    setIsLoading(false)
   }
 
-  render() {
-    const { searchTerm, searchResults, currentPage, totalPages, isLoading } =
-      this.state
+  const breeds =
+    searchResults.length === 0 ? (
+      <h1 className="error-message">nothing found</h1>
+    ) : (
+      searchResults.map((cat) => (
+        <CatItem key={cat.id} cat={cat} onCatClick={handleCatClick} />
+      ))
+    )
 
-    const breeds =
-      searchResults.length === 0 ? (
-        <h1 className="error-message">nothing found</h1>
-      ) : (
-        searchResults.map((cat) => <CatItem key={cat.id} cat={cat} />)
-      )
-
-    return (
-      <div className="container">
-        <SearchInput
-          searchTerm={searchTerm}
-          handleSearchInputChange={this.handleSearchInputChange}
-          handleSearchButtonClick={this.handleSearchButtonClick}
-          handleKeyPress={this.handleKeyPress}
-        />
+  return (
+    <div className="container">
+      <SearchInput
+        searchTerm={searchTerm}
+        handleSearchInputChange={handleSearchInputChange}
+        handleSearchButtonClick={handleSearchButtonClick}
+        handleKeyPress={handleKeyPress}
+      />
+      <div className="search-results">
         <div className="results-container">
           {isLoading ? <MoonSpinner /> : breeds}
         </div>
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={this.handlePageChange}
-        />
+        <div>{selectedCat && <CatCard cat={selectedCat} />}</div>
       </div>
-    )
-  }
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  )
 }
 
 interface CatSearchProps {
@@ -108,10 +97,11 @@ interface CatSearchProps {
   searchTerm?: string
 }
 
-interface CatSearchState {
+/*interface CatSearchState {
   searchTerm: string
   searchResults: CatBreed[]
   currentPage: number
   totalPages: number
   isLoading: boolean
-}
+  selectedCat: CatBreed | null
+}*/
