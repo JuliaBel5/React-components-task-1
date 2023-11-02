@@ -28,29 +28,45 @@ body {
   background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
   color: #157A6E;
 }
+select {
+  margin: 10px;
+  min-width: 20px;
+  font-size: 18px;
+  border: 2px solid #B5BAD0;
+  border-radius: 2px;
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
+  color: #157A6E;
+}
 
 .search-results  {
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
  
 }
 
-.results-container {
-   display: flex;
-flex-wrap: wrap;
-justify-content: center;
-padding: 20px;
+.results-container{
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+}
+.card-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 .result-card {
-  flex: 1 0 auto;
-  min-width: 200px;
+  flex: 1 1 auto;
+  max-width: 300px;
+  max-height: 500px;
   border: 2px solid rgb(107, 100, 100);
-  color:rgb(75, 65, 65);
+  color: rgb(75, 65, 65);
   padding: 20px;
   border-radius: 10px;
   margin: 10px;
-  background:linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
+  background: linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
   transition: 0.4s;
   cursor: pointer;
 }
@@ -66,23 +82,24 @@ padding: 20px;
 
 .result-card img {
   
-  max-height: 300px;
+  max-height: 40%;
   max-width: 80%;
   border: 2px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
 }
 
+
 .cat-card {
-  flex: 1 2 auto;
-  min-width: 200px;
+  flex: 1 0 auto;
+  max-width: 300px;
   max-height: 500px;
   border: 2px solid rgb(107, 100, 100);
-  color:rgb(75, 65, 65);
+  color: rgb(75, 65, 65);
   padding: 20px;
   border-radius: 10px;
   margin: 10px;
-  background:linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
+  background: linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
   transition: 0.4s;
   cursor: pointer;
 }
@@ -98,8 +115,7 @@ padding: 20px;
 
 .cat-card img {
   
-  max-height: 300px;
-  max-width: 80%;
+ height: 40%;
   border: 2px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
@@ -114,13 +130,13 @@ img:hover{
 
 @media (min-width: 1100px) {
   .result-card {
-    flex-basis: calc(25% - 20px);
+    flex-basis: calc(35% - 20px);
   }
 }
 
 @media (min-width: 700px) and (max-width: 1099px) {
   .result-card {
-    flex-basis: calc(33.33% - 20px);
+    flex-basis: calc(38.33% - 20px);
   }
 }
 

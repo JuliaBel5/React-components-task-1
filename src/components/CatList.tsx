@@ -1,11 +1,12 @@
 import './catSearch.css'
 import { useEffect, useState } from 'react'
-import { CatCard } from '../routes/CatCard'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
 import { Pagination } from './Pagination'
 import { SearchInput } from './SearchInput'
+import { Select } from './Select'
 
 const catCard = new CatService()
 
@@ -17,17 +18,17 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedCat, setSelectedCat] = useState<CatBreed | null>(null)
+  const [limit, setLimit] = useState<number>(8)
 
   useEffect(() => {
-    searchCat({ page: currentPage })
-  }, [currentPage])
+    searchCat({ page: currentPage, limit })
+  }, [currentPage, limit])
 
   const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
     setCurrentPage(1)
-    setSelectedCat(null)
-    searchCat({ breed: searchTerm.trim() })
+    searchCat({ breed: searchTerm.trim(), limit })
+    navigate('/')
   }
 
   const handleKeyPress = (event: { key: string }) => {
@@ -38,18 +39,16 @@ export const CatList: React.FC<CatSearchProps> = () => {
     setSearchTerm(event.target.value)
   }
 
-  const handleCatClick = (cat: CatBreed) => {
-    setSelectedCat(cat)
-  }
+  const navigate = useNavigate()
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    setSelectedCat(null)
+    navigate(`/?page=${page}`)
   }
 
-  const searchCat = async ({ page = 1, breed = '' } = {}) => {
+  const searchCat = async ({ page = 1, breed = '', limit = 8 } = {}) => {
     setIsLoading(true)
-    const response = await catCard.getCats({ breed, page })
+    const response = await catCard.getCats({ breed, page, limit })
 
     setSearchResults(response.items)
     setTotalPages(response.meta.total_pages)
@@ -61,7 +60,9 @@ export const CatList: React.FC<CatSearchProps> = () => {
       <h1 className="error-message">nothing found</h1>
     ) : (
       searchResults.map((cat) => (
-        <CatItem key={cat.id} cat={cat} onCatClick={handleCatClick} />
+        <Link key={cat.id} to={`/cat/${cat.id}`}>
+          <CatItem cat={cat} />
+        </Link>
       ))
     )
 
@@ -73,13 +74,18 @@ export const CatList: React.FC<CatSearchProps> = () => {
         handleSearchButtonClick={handleSearchButtonClick}
         handleKeyPress={handleKeyPress}
       />
+      <div>
+        <label htmlFor="limit">Limit:</label>
+        <Select value={limit} onChange={setLimit} />
+      </div>
       <div className="search-results">
         <div className="results-container">
           {isLoading ? <MoonSpinner /> : breeds}
         </div>
-        <div>{selectedCat && <CatCard cat={selectedCat} />}</div>
+        <div className="card-container">
+          <Outlet />
+        </div>
       </div>
-
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -96,12 +102,3 @@ interface CatSearchProps {
   temperament?: string
   searchTerm?: string
 }
-
-/*interface CatSearchState {
-  searchTerm: string
-  searchResults: CatBreed[]
-  currentPage: number
-  totalPages: number
-  isLoading: boolean
-  selectedCat: CatBreed | null
-}*/

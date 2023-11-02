@@ -1,6 +1,5 @@
 import './App.css'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
 import { CatList } from './components/CatList'
 
 export const App: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
@@ -16,7 +15,6 @@ export const App: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
         I don't like cats!
       </button>{' '}
       <CatList />
-      <Outlet />
     </div>
   )
 }
