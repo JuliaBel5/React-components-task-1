@@ -1,12 +1,6 @@
 import './catSearch.css'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import {
-  Link,
-  Outlet,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom'
+import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
@@ -31,7 +25,6 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [limit, setLimit] = useState<number>(6)
-  const { catId } = useParams<{ catId: string }>()
   const navigate = useNavigate()
 
   useLayoutEffect(() => {

@@ -7,7 +7,7 @@ import { CatBreed } from '../services/CatService'
 export const CatCard: React.FC<object> = () => {
   const [cat, setCat] = useState<CatBreed | null>(null)
   const { catId } = useParams<{ catId: string }>()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
   useEffect(() => {

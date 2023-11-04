@@ -33,7 +33,7 @@ body {
   border: 2px solid #B5BAD0;
   border-radius: 10px;
   background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
-  color: #157A6E;
+  color: rgb(75, 65, 65);
 }
 select {
   margin: 10px;
@@ -42,7 +42,7 @@ select {
   border: 2px solid #B5BAD0;
   border-radius: 2px;
   background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
-  color: #157A6E;
+  color: rgb(75, 65, 65);
 }
 
 .search-results  {
@@ -87,7 +87,7 @@ select {
 }
 
 .result-card:hover {
-  background:linear-gradient(to right, #ddf7bf,  #e3f6c4 50%,  #ebffdf 50%,  #ebf3e7 100%);
+  background:linear-gradient(to right, #c4b397,  #f6dfc4 50%,  #ffefdf 50%,  #f3eee7 100%);
   border: 2px solid rgb(15, 13, 13);
   color:rgb(15, 13, 13);
   transition: 0.4s;
@@ -121,7 +121,7 @@ select {
 }
 
 .cat-card:hover {
-  background:linear-gradient(to right, #ddf7bf,  #e3f6c4 50%,  #ebffdf 50%,  #ebf3e7 100%);
+  background:linear-gradient(to right, #c4b397,  #f6dfc4 50%,  #ffefdf 50%,  #f3eee7 100%);
   border: 2px solid rgb(15, 13, 13);
   color:rgb(15, 13, 13);
   transition: 0.4s;
@@ -140,7 +140,7 @@ select {
 img:hover{
   transform: scale(1.08);
   transition-duration: 0.4s;
-  border: 2px solid rgb(8, 82, 23);
+  border: 2px solid rgb(75, 65, 65);
   cursor: pointer;
 }
 
