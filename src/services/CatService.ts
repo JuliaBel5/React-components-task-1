@@ -1,7 +1,7 @@
 export class CatService {
   private baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
 
-  async getCats({ page = 1, limit = 8, breed = '' } = {}): Promise<Results> {
+  async getCats({ page = 1, limit = 6, breed = '' } = {}): Promise<Results> {
     try {
       const response = await fetch(
         `${this.baseUrl}?name=*${breed}&page=${page}&limit=${limit}`,
@@ -10,6 +10,17 @@ export class CatService {
       return data
     } catch (error) {
       console.error('Error:', error)
+      return Promise.reject(error)
+    }
+  }
+
+  async getBreed(catId: string): Promise<CatBreed> {
+    try {
+      const response = await fetch(`${this.baseUrl}${catId}`)
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error fetching cat details:', error)
       return Promise.reject(error)
     }
   }

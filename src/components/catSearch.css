@@ -1,7 +1,7 @@
 
 body {
   background-image: url('https://plus.unsplash.com/premium_photo-1673541162114-3c39f7f1235c?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjMzfHxsaWdodCUyMHllbGxvdyUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D');
-  background-repeat: no-repeat;
+  background-image: url('https://img.freepik.com/premium-vector/cute-kawaii-cats-kittens-funny-poses-vector-seamless-pattern-funny-cartoon-fat-cats-print_41901-1750.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698710400&semt=ais');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -11,6 +11,13 @@ body {
   flex-direction: column;
   justify-content: space-between;
   height: auto;
+}
+
+.error-button {
+  align-self: center; 
+  max-width: 30%;
+  max-width: 30%;
+  margin-top: 0;
 }
 
 .input-container {
@@ -40,7 +47,8 @@ select {
 
 .search-results  {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  max-width: 90vw;
  
 }
 
@@ -52,9 +60,16 @@ select {
   padding: 20px;
 }
 .card-container {
+  min-width: fit-content;
   display: flex;
   justify-content: center;
   padding: 20px;
+  
+}
+.modal-container {
+  display: flex;
+  justify-content: center;
+  border-left: 2px solid rgb(107, 100, 100);
 }
 
 .result-card {
@@ -82,7 +97,7 @@ select {
 
 .result-card img {
   
-  max-height: 40%;
+  max-height: 250px;
   max-width: 80%;
   border: 2px solid #ccc;
   border-radius: 10px;
@@ -91,9 +106,10 @@ select {
 
 
 .cat-card {
+   z-index: 2;
   flex: 1 0 auto;
   max-width: 300px;
-  max-height: 500px;
+  max-height: 750px;
   border: 2px solid rgb(107, 100, 100);
   color: rgb(75, 65, 65);
   padding: 20px;
@@ -114,8 +130,8 @@ select {
 }
 
 .cat-card img {
-  
- height: 40%;
+  max-height: 40%;
+  max-width: 80%;
   border: 2px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
@@ -128,6 +144,17 @@ img:hover{
   cursor: pointer;
 }
 
+.shadow {
+  position: fixed; /* Fixed/sticky position */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 @media (min-width: 1100px) {
   .result-card {
     flex-basis: calc(35% - 20px);
@@ -158,7 +185,13 @@ img:hover{
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
+}
+
+.card-description {
+  width: 90%;
+  font-size: 16px;
+  text-align: justify;
 }
 
 .temperament {
@@ -265,4 +298,41 @@ img:hover{
   to {
     transform: rotate(360deg);
   }
+}
+
+close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.orange-gradient-button {
+  background: linear-gradient(to right, #f3ede7, #f8e6ca, #f4d0a6, #f6cc97 ) ;
+  border: 2px solid #B5BAD0;
+  color: rgb(19, 1, 1);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.orange-gradient-button:hover {
+  background: linear-gradient(to right, #f6cc97 , #f4d0a6, #f8e6ca, #f3ede7);
+  color: #157A6E;
+  border: 2px solid rgb(59, 56, 56);
+  transition: 0.4s;
+}
+
+.orange-gradient-button:active {
+  background: #ebf3e7;
 }

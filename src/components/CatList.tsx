@@ -1,6 +1,12 @@
 import './catSearch.css'
-import { useEffect, useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import {
+  Link,
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
@@ -14,21 +20,47 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [searchTerm, setSearchTerm] = useState<string>(
     localStorage.getItem('searchTerm') ?? '',
   )
+  const [searchParams, setSearchParams] = useSearchParams({
+    urlSearchTerm: localStorage.getItem('searchTerm') ?? '',
+    page: '1',
+    limit: '6',
+  })
+
   const [searchResults, setSearchResults] = useState<CatBreed[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [limit, setLimit] = useState<number>(8)
+  const [limit, setLimit] = useState<number>(6)
+  const { catId } = useParams<{ catId: string }>()
+  const navigate = useNavigate()
+
+  useLayoutEffect(() => {
+    setSearchParams({
+      urlSearchTerm: searchTerm.trim(),
+      page: currentPage.toString(),
+      limit: limit.toString(),
+    })
+  }, [])
 
   useEffect(() => {
+    setSearchParams({
+      urlSearchTerm: searchTerm.trim(),
+      page: currentPage.toString(),
+      limit: limit.toString(),
+    })
     searchCat({ page: currentPage, limit })
-  }, [currentPage, limit])
+  }, [currentPage, limit, searchParams, searchTerm, setSearchParams])
 
   const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
     setCurrentPage(1)
+    setSearchParams({
+      urlSearchTerm: searchTerm.trim(),
+      page: currentPage.toString(),
+      limit: limit.toString(),
+    })
     searchCat({ breed: searchTerm.trim(), limit })
-    navigate('/')
+    //navigate('/')
   }
 
   const handleKeyPress = (event: { key: string }) => {
@@ -39,14 +71,17 @@ export const CatList: React.FC<CatSearchProps> = () => {
     setSearchTerm(event.target.value)
   }
 
-  const navigate = useNavigate()
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
-    navigate(`/?page=${page}`)
+    setSearchParams({
+      urlSearchTerm: searchTerm.trim(),
+      page: page.toString(),
+      limit: limit.toString(),
+    })
+    //navigate(`/?${searchParams}`)
   }
 
-  const searchCat = async ({ page = 1, breed = '', limit = 8 } = {}) => {
+  const searchCat = async ({ page = 1, breed = '', limit = 6 } = {}) => {
     setIsLoading(true)
     const response = await catCard.getCats({ breed, page, limit })
 
@@ -57,7 +92,10 @@ export const CatList: React.FC<CatSearchProps> = () => {
 
   const breeds =
     searchResults.length === 0 ? (
-      <h1 className="error-message">nothing found</h1>
+      <>
+        <h1 className="error-message">nothing found</h1>
+        {navigate('/')}
+      </>
     ) : (
       searchResults.map((cat) => (
         <Link key={cat.id} to={`/cat/${cat.id}`}>
@@ -65,32 +103,45 @@ export const CatList: React.FC<CatSearchProps> = () => {
         </Link>
       ))
     )
+  const [error, setError] = useState(false)
 
+  if (error) {
+    throw new Error('БУММММММММММММММ')
+  }
   return (
-    <div className="container">
-      <SearchInput
-        searchTerm={searchTerm}
-        handleSearchInputChange={handleSearchInputChange}
-        handleSearchButtonClick={handleSearchButtonClick}
-        handleKeyPress={handleKeyPress}
-      />
-      <div>
-        <label htmlFor="limit">Limit:</label>
-        <Select value={limit} onChange={setLimit} />
-      </div>
-      <div className="search-results">
+    <div className="search-results">
+      <div className="container">
+        <div className="error-button" />
+        <div>
+          <button
+            onClick={() => setError(true)}
+            className="orange-gradient-button "
+          >
+            I don't like cats!
+          </button>
+        </div>
+        <SearchInput
+          searchTerm={searchTerm}
+          handleSearchInputChange={handleSearchInputChange}
+          handleSearchButtonClick={handleSearchButtonClick}
+          handleKeyPress={handleKeyPress}
+        />
+        <div>
+          <label htmlFor="limit">Limit:</label>
+          <Select value={limit} onChange={setLimit} />
+        </div>
         <div className="results-container">
           {isLoading ? <MoonSpinner /> : breeds}
         </div>
-        <div className="card-container">
-          <Outlet />
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      <div className="card-container">
+        <Outlet />
+      </div>
     </div>
   )
 }

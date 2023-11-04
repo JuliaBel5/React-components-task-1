@@ -6,6 +6,7 @@ import { App } from './App'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { ErrorPage } from './error-page'
 import { CatCard } from './routes/CatCard'
+import { NotFound } from './routes/NotFound'
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,9 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: '*', element: <NotFound /> },
 ])
+
 ReactDOM.createRoot(document.querySelector('#root')!).render(
   <React.StrictMode>
     <ErrorBoundary fallback={<ErrorPage />}>
