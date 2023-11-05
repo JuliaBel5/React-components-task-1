@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { App } from './App'
 import { ErrorBoundary } from './components/ErrorBoundary'
-import { ErrorPage } from './error-page'
 import { CatCard } from './routes/CatCard'
+import { ErrorPage } from './routes/error-page'
 import { NotFound } from './routes/NotFound'
 
 const router = createBrowserRouter([

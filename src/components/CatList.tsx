@@ -94,7 +94,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [error, setError] = useState(false)
 
   if (error) {
-    throw new Error('БУММММММММММММММ')
+    throw new Error('ММММММММММММММММРРРРР')
   }
   return (
     <div className="search-results">

@@ -29,7 +29,7 @@ body {
 
 .input-container input {
   margin-bottom: 10px;
-  max-width: 90%;
+  max-width: 75%;
   border: 2px solid #B5BAD0;
   border-radius: 10px;
   background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
@@ -39,16 +39,22 @@ select {
   margin: 10px;
   min-width: 20px;
   font-size: 18px;
+  font-weight: 400;
   border: 2px solid #B5BAD0;
   border-radius: 2px;
   background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
   color: rgb(75, 65, 65);
 }
-
+label {
+  font-size: 24px;
+  font-weight: 600;
+  color: rgb(75, 65, 65);
+}
 .search-results  {
   display: flex;
   justify-content: space-evenly;
   max-width: 90vw;
+  align-items: flex-start;
  
 }
 
@@ -57,6 +63,7 @@ select {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: stretch;
   padding: 20px;
 }
 .card-container {
@@ -73,9 +80,9 @@ select {
 }
 
 .result-card {
-  flex: 1 1 auto;
+  flex: 1 0 auto;
   max-width: 300px;
-  max-height: 500px;
+  height: fit-content;
   border: 2px solid rgb(107, 100, 100);
   color: rgb(75, 65, 65);
   padding: 20px;
@@ -84,6 +91,7 @@ select {
   background: linear-gradient(to right, #f3ede7, #f8e6ca 50%, #f4d0a6 50%, #f6cc97 100%) ;
   transition: 0.4s;
   cursor: pointer;
+
 }
 
 .result-card:hover {
@@ -102,14 +110,15 @@ select {
   border: 2px solid #ccc;
   border-radius: 10px;
   cursor: pointer;
+  object-fit: cover;
 }
 
 
 .cat-card {
    z-index: 2;
-  flex: 1 0 auto;
+  flex: 1 2 auto;
   max-width: 300px;
-  max-height: 750px;
+  max-height: 90%;
   border: 2px solid rgb(107, 100, 100);
   color: rgb(75, 65, 65);
   padding: 20px;
@@ -136,6 +145,10 @@ select {
   border-radius: 10px;
   cursor: pointer;
 }
+.image-frame {
+  width: 90%;
+  height: 50%;
+}
 
 img:hover{
   transform: scale(1.08);
@@ -145,37 +158,74 @@ img:hover{
 }
 
 .shadow {
-  position: fixed; /* Fixed/sticky position */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  z-index: 1; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100vw;
+  height: 100%; 
+  overflow: hidden; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
 }
 @media (min-width: 1100px) {
-  .result-card {
+  .result-card,
+  .cat-card {
     flex-basis: calc(35% - 20px);
   }
 }
 
 @media (min-width: 700px) and (max-width: 1099px) {
-  .result-card {
+  .result-card,
+  .cat-card {
     flex-basis: calc(38.33% - 20px);
   }
 }
 
 @media (min-width: 500px) and (max-width: 699px) {
-  .result-card {
-    flex-basis: calc(50% - 20px);
+  .result-card,
+  .cat-card {
+    flex-basis: calc(42% - 10px);
+  }
+  .search-results {
+    justify-content: center;
   }
 }
+  @media (min-width: 621px) and (max-width: 699px) {
+    .cat-card {
+      max-width: 250px;
+      max-height: fit-content;
+      padding: 10px;
+      margin-left: 10px;
+  }
+}
+@media (min-width: 550px) and (max-width: 620px) {
+.cat-card {
+  max-width: 200px;
+  max-height: fit-content;
+  padding: 10px;
+  margin-left: 10px;
+}
+}
 
+@media (min-width: 500px) and (max-width: 549px) {
+  .cat-card {
+    max-width: 170px;
+    max-height: fit-content;
+    padding: 10px;
+    margin-left: 0;
+  }
+  }
 @media (max-width: 499px) {
-  .result-card {
+  .result-card,
+  .cat-card {
     flex-basis: 100%;
+  }
+  .cat-card {
+    max-width: 150px;
+    max-height: fit-content;
+    padding: 10px;
+    margin-left: 0;
   }
 }
 .description {
@@ -208,7 +258,7 @@ img:hover{
   background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf ) ;
   border: 2px solid #B5BAD0;
   color: rgb(19, 1, 1);
-  padding: 15px 32px;
+  padding: 15px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -217,6 +267,7 @@ img:hover{
   cursor: pointer;
   margin-left: 10px;
   margin-bottom: 10px;
+  max-width: 35%;
 }
 
 .gradient-button:hover {
@@ -304,11 +355,12 @@ close-button {
   position: absolute;
   top: 10px;
   right: 10px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   background-color: #ccc;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
 }
 
 .orange-gradient-button {
