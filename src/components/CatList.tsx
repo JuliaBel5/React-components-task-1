@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import './catSearch.css'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
@@ -14,12 +15,6 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [searchTerm, setSearchTerm] = useState<string>(
     localStorage.getItem('searchTerm') ?? '',
   )
-  const [searchParams, setSearchParams] = useSearchParams({
-    urlSearchTerm: localStorage.getItem('searchTerm') ?? '',
-    page: '1',
-    limit: '6',
-  })
-
   const [searchResults, setSearchResults] = useState<CatBreed[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
@@ -27,13 +22,26 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [limit, setLimit] = useState<number>(6)
   const navigate = useNavigate()
 
-  useLayoutEffect(() => {
+  const [searchParams, setSearchParams] = useSearchParams({
+    urlSearchTerm: searchTerm.trim(),
+    page: currentPage.toString(),
+    limit: limit.toString(),
+  })
+  /* useLayoutEffect(() => {
     setSearchParams({
       urlSearchTerm: searchTerm.trim(),
       page: currentPage.toString(),
       limit: limit.toString(),
     })
-  }, [searchTerm, currentPage, limit])
+  }, [searchParams])*/
+
+  useEffect(() => {
+    setSearchParams({
+      urlSearchTerm: searchTerm.trim(),
+      page: currentPage.toString(),
+      limit: limit.toString(),
+    })
+  }, [searchParams, currentPage, limit, setSearchParams])
 
   useEffect(() => {
     searchCat({ page: currentPage, limit })
@@ -48,7 +56,6 @@ export const CatList: React.FC<CatSearchProps> = () => {
       limit: limit.toString(),
     })
     searchCat({ breed: searchTerm.trim(), limit })
-    //navigate('/')
   }
 
   const handleKeyPress = (event: { key: string }) => {
@@ -66,10 +73,13 @@ export const CatList: React.FC<CatSearchProps> = () => {
       page: page.toString(),
       limit: limit.toString(),
     })
-    //navigate(`/?${searchParams}`)
   }
 
-  const searchCat = async ({ page = 1, breed = '', limit = 6 } = {}) => {
+  const searchCat = async ({
+    page = 1,
+    breed = searchTerm.trim(),
+    limit = 6,
+  } = {}) => {
     setIsLoading(true)
     const response = await catCard.getCats({ breed, page, limit })
 
