@@ -82,7 +82,6 @@ label {
 .result-card {
   flex: 1 0 auto;
   max-width: 300px;
-  height: fit-content;
   border: 2px solid rgb(107, 100, 100);
   color: rgb(75, 65, 65);
   padding: 20px;
@@ -145,9 +144,8 @@ label {
   border-radius: 10px;
   cursor: pointer;
 }
-.image-frame {
-  width: 90%;
-  height: 50%;
+a {
+  display: flex;
 }
 
 img:hover{

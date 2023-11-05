@@ -7,12 +7,8 @@ export const CatItem: React.FC<CatItemProps> = ({ cat }) => {
   return (
     <div key={cat.id} className="result-card">
       <h1 className="title">{cat.name}</h1>
-      <div className="image-frame">
-        <img
-          src={cat.image ? cat.image.url : imagePlaceholder}
-          alt={cat.name}
-        />
-      </div>
+      <img src={cat.image ? cat.image.url : imagePlaceholder} alt={cat.name} />
+
       <h3 className="description">{cat.description}</h3>
       <h3 className="temperament">{cat.temperament}</h3>
     </div>
