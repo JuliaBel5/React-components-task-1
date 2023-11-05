@@ -47,7 +47,7 @@ export const CatCard: React.FC<object> = () => {
       <div className="modal-container">
         <div className="cat-card">
           <button
-            className="close-button, orange-gradient-button"
+            className="close-button, gradient-button"
             onClick={handleCloseButtonClick}
           >
             Close

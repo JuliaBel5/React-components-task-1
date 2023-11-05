@@ -81,7 +81,7 @@ select {
   padding: 20px;
   border-radius: 10px;
   margin: 10px;
-  background: linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
+  background: linear-gradient(to right, #f3ede7, #f8e6ca 50%, #f4d0a6 50%, #f6cc97 100%) ;
   transition: 0.4s;
   cursor: pointer;
 }
@@ -115,7 +115,7 @@ select {
   padding: 20px;
   border-radius: 10px;
   margin: 10px;
-  background: linear-gradient(to right, #f3f1e7, #ffffdf 50%, #f6f1c4 50%, #f7f2bf 100%);
+  background: linear-gradient(to right, #f3ede7, #f8e6ca 50%, #f4d0a6 50%, #f6cc97 100%) ;
   transition: 0.4s;
   cursor: pointer;
 }
@@ -221,13 +221,13 @@ img:hover{
 
 .gradient-button:hover {
   background: linear-gradient(to left, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf);
-  color: #157A6E;
-  border: 2px solid rgb(27, 21, 21);
+  color: rgb(75, 65, 65);;
+  border: 2px solid rgb(75, 65, 65);
   transition: 0.4s;
 }
 
 .gradient-button:active {
-  background: #ebf3e7;
+  background: rgb(181, 146, 101);
 }
 
 .pagination-button {
@@ -239,13 +239,13 @@ img:hover{
 }
 
 .pagination-button:hover {
-  background: linear-gradient(to left, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf);
-  border: 2px solid rgb(27, 21, 21);
+  background:linear-gradient(to right, #c4b397,  #f6dfc4,  #ffefdf,  #f3eee7);
+  border: 2px solid rgb(75, 65, 65);
   transition: 0.4s;
 }
 
 .pagination-button:active {
-  background: #ebf3e7;
+  background: rgb(181, 146, 101);
 }
 .error-message {
   width: 400px;

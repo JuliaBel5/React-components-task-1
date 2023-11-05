@@ -26,6 +26,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [limit, setLimit] = useState<number>(6)
   const navigate = useNavigate()
+  navigate(`/?${searchParams}`)
 
   useLayoutEffect(() => {
     setSearchParams({
@@ -33,16 +34,11 @@ export const CatList: React.FC<CatSearchProps> = () => {
       page: currentPage.toString(),
       limit: limit.toString(),
     })
-  }, [])
+  }, [searchTerm, currentPage, limit])
 
   useEffect(() => {
-    setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: currentPage.toString(),
-      limit: limit.toString(),
-    })
     searchCat({ page: currentPage, limit })
-  }, [currentPage, limit, searchParams, searchTerm, setSearchParams])
+  }, [currentPage, limit])
 
   const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
