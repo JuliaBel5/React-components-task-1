@@ -26,7 +26,6 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [limit, setLimit] = useState<number>(6)
   const navigate = useNavigate()
-  navigate(`/?${searchParams}`)
 
   useLayoutEffect(() => {
     setSearchParams({
