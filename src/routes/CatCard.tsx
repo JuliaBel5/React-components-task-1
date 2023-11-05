@@ -25,16 +25,19 @@ export const CatCard: React.FC<object> = () => {
     fetchCatDetails()
   }, [catId])
 
-  if (!cat) {
-    return <MoonSpinner />
-  }
   const handleCloseButtonClick = () => {
     navigate(`/?${searchParams}`)
   }
   const handleContainerClick = () => {
     navigate(`/?${searchParams}`)
   }
+
+  if (!cat) {
+    return <MoonSpinner />
+  }
+
   const { image, description, temperament, name } = cat
+
   return (
     <>
       <div

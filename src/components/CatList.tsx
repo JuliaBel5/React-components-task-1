@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './catSearch.css'
 import { useEffect, useState } from 'react'
-import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, Outlet, useSearchParams } from 'react-router-dom'
 import { CatBreed, CatService } from '../services/CatService'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
@@ -20,20 +20,8 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const [totalPages, setTotalPages] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [limit, setLimit] = useState<number>(6)
-  const navigate = useNavigate()
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    urlSearchTerm: searchTerm.trim(),
-    page: currentPage.toString(),
-    limit: limit.toString(),
-  })
-  /* useLayoutEffect(() => {
-    setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: currentPage.toString(),
-      limit: limit.toString(),
-    })
-  }, [searchParams])*/
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     setSearchParams({
@@ -41,10 +29,12 @@ export const CatList: React.FC<CatSearchProps> = () => {
       page: currentPage.toString(),
       limit: limit.toString(),
     })
-  }, [searchParams, currentPage, limit, setSearchParams])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, limit])
 
   useEffect(() => {
     searchCat({ page: currentPage, limit })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit])
 
   const handleSearchButtonClick = () => {
@@ -55,6 +45,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
       page: currentPage.toString(),
       limit: limit.toString(),
     })
+
     searchCat({ breed: searchTerm.trim(), limit })
   }
 
@@ -92,11 +83,10 @@ export const CatList: React.FC<CatSearchProps> = () => {
     searchResults.length === 0 ? (
       <>
         <h1 className="error-message">nothing found</h1>
-        {navigate('/')}
       </>
     ) : (
       searchResults.map((cat) => (
-        <Link key={cat.id} to={`/cat/${cat.id}`}>
+        <Link key={cat.id} to={`/cat/${cat.id}?${searchParams}`}>
           <CatItem cat={cat} />
         </Link>
       ))
