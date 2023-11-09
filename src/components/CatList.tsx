@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import './catSearch.css'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, Outlet, useSearchParams } from 'react-router-dom'
-import { CatBreed, CatService } from '../services/CatService'
+import { CatService } from '../services/CatService'
+import { SearchDataContext, SearchResultsContext } from '../store/SearchContext'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
 import { Pagination } from './Pagination'
@@ -12,10 +13,12 @@ import { Select } from './Select'
 const catCard = new CatService()
 
 export const CatList: React.FC<CatSearchProps> = () => {
-  const [searchTerm, setSearchTerm] = useState<string>(
+  /* const [searchTerm, setSearchTerm] = useState<string>(
     localStorage.getItem('searchTerm') ?? '',
-  )
-  const [searchResults, setSearchResults] = useState<CatBreed[]>([])
+ 
+  const [searchResults, setSearchResults] = useState<CatBreed[]>([]) )*/
+  const { searchTerm, setSearchTerm } = useContext(SearchDataContext)
+  const { searchResults, setSearchResults } = useContext(SearchResultsContext)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -78,6 +81,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
     const response = await catCard.getCats({ breed, page, limit })
 
     setSearchResults(response.items)
+
     setTotalPages(response.meta.total_pages)
     setIsLoading(false)
   }
