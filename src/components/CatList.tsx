@@ -65,7 +65,10 @@ export const CatList: React.FC<CatSearchProps> = () => {
       limit: limit.toString(),
     })
   }
-
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit)
+    setCurrentPage(1)
+  }
   const searchCat = async ({
     page = 1,
     breed = searchTerm.trim(),
@@ -116,7 +119,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
         />
         <div>
           <label htmlFor="limit">Limit:</label>
-          <Select value={limit} onChange={setLimit} />
+          <Select value={limit} onChange={handleLimitChange} />
         </div>
         <div className="results-container">
           {isLoading ? <MoonSpinner /> : breeds}
