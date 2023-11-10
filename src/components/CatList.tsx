@@ -1,64 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import './catSearch.css'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link, Outlet, useSearchParams } from 'react-router-dom'
-import { CatService } from '../services/CatService'
 import { SearchDataContext, SearchResultsContext } from '../store/SearchContext'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
 import { Pagination } from './Pagination'
-import { SearchInput } from './SearchInput'
-import { Select } from './Select'
-
-const catCard = new CatService()
+import { SearchInput } from './SearchInput/SearchInput'
+import { Select } from './Select/Select'
 
 export const CatList: React.FC<CatSearchProps> = () => {
-  /* const [searchTerm, setSearchTerm] = useState<string>(
-    localStorage.getItem('searchTerm') ?? '',
- 
-  const [searchResults, setSearchResults] = useState<CatBreed[]>([]) )*/
-  const { searchTerm, setSearchTerm } = useContext(SearchDataContext)
-  const { searchResults, setSearchResults } = useContext(SearchResultsContext)
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [totalPages, setTotalPages] = useState<number>(1)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [limit, setLimit] = useState<number>(6)
+  const { searchTerm } = useContext(SearchDataContext)
+  const {
+    searchResults,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    isLoading,
+    limit,
+    setLimit,
+  } = useContext(SearchResultsContext)
 
   const [searchParams, setSearchParams] = useSearchParams()
-
-  useEffect(() => {
-    setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: currentPage.toString(),
-      limit: limit.toString(),
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, limit])
-
-  useEffect(() => {
-    searchCat({ page: currentPage, limit })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, limit])
-
-  const handleSearchButtonClick = () => {
-    localStorage.setItem('searchTerm', searchTerm.trim())
-    setCurrentPage(1)
-    setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: currentPage.toString(),
-      limit: limit.toString(),
-    })
-
-    searchCat({ breed: searchTerm.trim(), limit })
-  }
-
-  const handleKeyPress = (event: { key: string }) => {
-    if (event.key === 'Enter') handleSearchButtonClick()
-  }
-
-  const handleSearchInputChange = (event: { target: { value: string } }) => {
-    setSearchTerm(event.target.value)
-  }
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -71,19 +33,6 @@ export const CatList: React.FC<CatSearchProps> = () => {
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit)
     setCurrentPage(1)
-  }
-  const searchCat = async ({
-    page = 1,
-    breed = searchTerm.trim(),
-    limit = 6,
-  } = {}) => {
-    setIsLoading(true)
-    const response = await catCard.getCats({ breed, page, limit })
-
-    setSearchResults(response.items)
-
-    setTotalPages(response.meta.total_pages)
-    setIsLoading(false)
   }
 
   const breeds =
@@ -115,12 +64,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
             I don't like cats!
           </button>
         </div>
-        <SearchInput
-          searchTerm={searchTerm}
-          handleSearchInputChange={handleSearchInputChange}
-          handleSearchButtonClick={handleSearchButtonClick}
-          handleKeyPress={handleKeyPress}
-        />
+        <SearchInput />
         <div>
           <label htmlFor="limit">Limit:</label>
           <Select value={limit} onChange={handleLimitChange} />
