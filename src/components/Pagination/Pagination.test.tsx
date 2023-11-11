@@ -1,22 +1,29 @@
 import { act, render, screen } from '@testing-library/react'
-import { MemoryRouter, useLocation } from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
-import { Pagination } from './Pagination'
-
-// Custom hook to access the location object
-function TestComponent() {
-  const location = useLocation()
-  return <div data-testid="location">{location.search}</div>
-}
+import { App } from '../../App'
+import { CatCard } from '../../routes/CatCard'
+import { ErrorPage } from '../../routes/error-page'
+import { NotFound } from '../../routes/NotFound'
 
 describe('Pagination', () => {
   it('should update URL query parameter when page changes', () => {
-    render(
-      <MemoryRouter initialEntries={['/?urlSearchTerm=&page=4&limit=6']}>
-        <Pagination currentPage={4} totalPages={5} />
-        <TestComponent />
-      </MemoryRouter>,
-    )
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <App />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'cat/:catId',
+            element: <CatCard />,
+          },
+        ],
+      },
+      { path: '*', element: <NotFound /> },
+    ])
+
+    render(<RouterProvider router={router} />)
 
     // Find the pagination buttons
     const prevButton = screen.getByRole('button', { name: '«' })
@@ -27,11 +34,8 @@ describe('Pagination', () => {
       nextButton.click()
     })
 
-    // Get the location element to check the updated query parameter
-    const locationElement = screen.getByTestId('location')
-
     // Check if the searchParams are updated correctly
-    expect(locationElement.textContent).toBe('?urlSearchTerm=&page=5&limit=6')
+    expect(router.state.location.search).toBe('?urlSearchTerm=&page=2&limit=6')
 
     // Click on the previous button
     act(() => {
@@ -39,6 +43,6 @@ describe('Pagination', () => {
     })
 
     // Check if the searchParams are updated correctly
-    expect(locationElement.textContent).toBe('?urlSearchTerm=&page=3&limit=6')
+    expect(router.state.location.search).toBe('?urlSearchTerm=&page=1&limit=6')
   })
 })

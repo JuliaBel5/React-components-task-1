@@ -19,7 +19,7 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       limit: limit.toString(),
     })
   }
-  console.log(searchParams)
+  console.log(searchParams.toString())
   return (
     <div className="pagination-container">
       <button
