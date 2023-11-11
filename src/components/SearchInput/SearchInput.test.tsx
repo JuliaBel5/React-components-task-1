@@ -1,15 +1,34 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { fireEvent, render, screen } from '@testing-library/react'
+import {
+  createMemoryRouter,
+  MemoryRouter,
+  RouterProvider,
+} from 'react-router-dom'
 import { expect, test } from 'vitest'
+import { App } from '../../App'
+import { CatCard } from '../../routes/CatCard'
+import { ErrorPage } from '../../routes/error-page'
+import { NotFound } from '../../routes/NotFound'
 import { SearchInput } from './SearchInput'
 
 test('should save entered value to local storage on Search button click', () => {
   // Render the component
-  render(
-    <MemoryRouter>
-      <SearchInput />
-    </MemoryRouter>,
-  )
+  const router = createMemoryRouter([
+    {
+      path: '/',
+      element: <App />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: 'cat/:catId',
+          element: <CatCard />,
+        },
+      ],
+    },
+    { path: '*', element: <NotFound /> },
+  ])
+
+  render(<RouterProvider router={router} />)
 
   // Get the search input and search button
   const searchInput = screen.getByPlaceholderText('Please, enter a cat breed')

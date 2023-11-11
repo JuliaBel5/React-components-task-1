@@ -1,15 +1,14 @@
 import './catSearch.css'
 import { useContext, useState } from 'react'
 import { Link, Outlet, useSearchParams } from 'react-router-dom'
-import { SearchDataContext, SearchResultsContext } from '../store/SearchContext'
+import { SearchResultsContext } from '../store/SearchContext'
 import { CatItem } from './CatItem'
 import { MoonSpinner } from './MoonSpinner'
-import { Pagination } from './Pagination'
+import { Pagination } from './Pagination/Pagination'
 import { SearchInput } from './SearchInput/SearchInput'
 import { Select } from './Select/Select'
 
 export const CatList: React.FC<CatSearchProps> = () => {
-  const { searchTerm } = useContext(SearchDataContext)
   const {
     searchResults,
     currentPage,
@@ -20,16 +19,8 @@ export const CatList: React.FC<CatSearchProps> = () => {
     setLimit,
   } = useContext(SearchResultsContext)
 
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-    setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: page.toString(),
-      limit: limit.toString(),
-    })
-  }
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit)
     setCurrentPage(1)
@@ -72,11 +63,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
         <div className="results-container">
           {isLoading ? <MoonSpinner /> : breeds}
         </div>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
       <div className="card-container">
         <Outlet />

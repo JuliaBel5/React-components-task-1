@@ -29,7 +29,7 @@ export const SearchResultsContext = createContext<SearchResultsContextProps>({
   setSearchResults: () => {},
   currentPage: 1,
   setCurrentPage: () => {},
-  totalPages: 1,
+  totalPages: 2,
   setTotalPages: () => {},
   isLoading: false,
   setIsLoading: () => {},
