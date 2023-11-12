@@ -45,6 +45,32 @@ test('should save entered value to local storage on Search button click', () => 
   expect(localStorage.getItem('searchTerm')).toBe(enteredValue)
 })
 
+test('should retrieve value from local storage upon mounting', () => {
+  // Set up the local storage with a test value
+  localStorage.setItem('searchTerm', 'test value')
+
+  const router = createMemoryRouter([
+    {
+      path: '/',
+      element: <App />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: 'cat/:catId',
+          element: <CatCard />,
+        },
+      ],
+    },
+    { path: '*', element: <NotFound /> },
+  ])
+
+  render(<RouterProvider router={router} />)
+
+  // Assert that the component retrieves the value from local storage
+  expect(screen.getByPlaceholderText('Please, enter a cat breed')).toHaveValue(
+    'test value',
+  )
+})
 test('should render the input field and button', () => {
   const { getByPlaceholderText, getByText } = render(
     <MemoryRouter>

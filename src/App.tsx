@@ -1,6 +1,6 @@
 import './App.css'
 import { useState } from 'react'
-import { CatList } from './components/CatList'
+import { CatList } from './components/CatList/CatList'
 import { CatBreed } from './services/CatService'
 import { SearchDataContext, SearchResultsContext } from './store/SearchContext'
 
@@ -13,6 +13,7 @@ export const App: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
   const [totalPages, setTotalPages] = useState<number>(2)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [limit, setLimit] = useState<number>(6)
+  const [cat, setCat] = useState<CatBreed | null>(null)
   return (
     <div className="App">
       <SearchDataContext.Provider value={{ searchTerm, setSearchTerm }}>
@@ -28,6 +29,8 @@ export const App: React.FC<React.ComponentPropsWithoutRef<'div'>> = () => {
             setIsLoading,
             limit,
             setLimit,
+            cat,
+            setCat,
           }}
         >
           <CatList />

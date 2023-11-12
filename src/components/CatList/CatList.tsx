@@ -1,12 +1,12 @@
-import './catSearch.css'
+import '../catSearch.css'
 import { useContext, useState } from 'react'
 import { Link, Outlet, useSearchParams } from 'react-router-dom'
-import { SearchResultsContext } from '../store/SearchContext'
-import { CatItem } from './CatItem'
-import { MoonSpinner } from './MoonSpinner'
-import { Pagination } from './Pagination/Pagination'
-import { SearchInput } from './SearchInput/SearchInput'
-import { Select } from './Select/Select'
+import { SearchResultsContext } from '../../store/SearchContext'
+import { CatItem } from '../CatItem/CatItem'
+import { MoonSpinner } from '../MoonSpinner'
+import { Pagination } from '../Pagination/Pagination'
+import { SearchInput } from '../SearchInput/SearchInput'
+import { Select } from '../Select/Select'
 
 export const CatList: React.FC<CatSearchProps> = () => {
   const {
@@ -33,7 +33,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
       </>
     ) : (
       searchResults.map((cat) => (
-        <Link key={cat.id} to={`/cat/${cat.id}?${searchParams}`}>
+        <Link key={cat.id} role="link" to={`/cat/${cat.id}?${searchParams}`}>
           <CatItem cat={cat} />
         </Link>
       ))

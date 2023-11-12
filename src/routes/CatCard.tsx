@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { imagePlaceholder } from '../components/CatItem'
+import { imagePlaceholder } from '../components/CatItem/CatItem'
 import { MoonSpinner } from '../components/MoonSpinner'
-import { CatBreed } from '../services/CatService'
+import { SearchResultsContext } from '../store/SearchContext'
 
 export const CatCard: React.FC<object> = () => {
-  const [cat, setCat] = useState<CatBreed | null>(null)
+  const { cat, setCat } = useContext(SearchResultsContext)
   const { catId } = useParams<{ catId: string }>()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -47,7 +47,7 @@ export const CatCard: React.FC<object> = () => {
         tabIndex={0}
       />
 
-      <div className="modal-container">
+      <div className="modal-container" data-testid="cat-card">
         <div className="cat-card">
           <button
             className="close-button, gradient-button"

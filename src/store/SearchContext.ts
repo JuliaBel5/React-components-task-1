@@ -22,6 +22,8 @@ interface SearchResultsContextProps {
   setIsLoading: Dispatch<SetStateAction<boolean>>
   limit: number
   setLimit: Dispatch<SetStateAction<number>>
+  cat: CatBreed | null
+  setCat: Dispatch<SetStateAction<CatBreed>>
 }
 
 export const SearchResultsContext = createContext<SearchResultsContextProps>({
@@ -35,4 +37,6 @@ export const SearchResultsContext = createContext<SearchResultsContextProps>({
   setIsLoading: () => {},
   limit: 6,
   setLimit: () => {},
+  cat: null,
+  setCat: () => {},
 })

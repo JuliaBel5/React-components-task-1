@@ -9,7 +9,7 @@ import {
 export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
   const { searchTerm } = useContext(SearchDataContext)
   const { setCurrentPage, limit } = useContext(SearchResultsContext)
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [_searchParams, setSearchParams] = useSearchParams()
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -19,7 +19,7 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
       limit: limit.toString(),
     })
   }
-  console.log(searchParams.toString())
+
   return (
     <div className="pagination-container">
       <button
