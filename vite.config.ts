@@ -7,13 +7,18 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['src/**/*.{test,spec}.{js,mjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: './setupTests.ts',
     coverage: {
       enabled: true,
       provider: 'v8',
       all: true,
       reporter: 'text',
+      exclude: [
+        'src/components/ErrorBoundary.tsx',
+        'src/vite-env.d.ts',
+        'eslint.cjs',
+      ],
     },
     watch: true,
   },
