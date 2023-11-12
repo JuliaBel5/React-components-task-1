@@ -15,5 +15,6 @@ export default defineConfig({
       all: true,
       reporter: 'text',
     },
+    watch: true,
   },
 })
