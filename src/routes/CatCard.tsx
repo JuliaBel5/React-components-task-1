@@ -37,7 +37,7 @@ export const CatCard: React.FC<object> = () => {
   }
 
   if (!cat || isLoading) {
-    return <MoonSpinner data-testid="loading-indicator" />
+    return <MoonSpinner />
   }
 
   const { image, description, temperament, name } = cat

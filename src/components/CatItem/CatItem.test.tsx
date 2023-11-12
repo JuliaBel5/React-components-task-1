@@ -1,11 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
-import { createMemoryRouter, RouterProvider } from 'react-router-dom'
-import { App } from '../../App'
-import { CatCard } from '../../routes/CatCard'
-import { ErrorPage } from '../../routes/error-page'
-import { NotFound } from '../../routes/NotFound'
+import { RouterProvider } from 'react-router-dom'
+import { router } from '../../utils/router'
 
 const mockURL = 'https://2ff5030c446d8ca4.mokky.dev'
 const mockItems = [
@@ -22,6 +19,7 @@ const mockItems = [
     temperament: 'Test temperament 2',
   },
 ]
+
 describe('CatItem', () => {
   it('checks that clicking triggers an additional API call to fetch detailed information', async () => {
     nock(mockURL)
@@ -57,21 +55,6 @@ describe('CatItem', () => {
           url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
         },
       })
-
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'cat/:catId',
-            element: <CatCard />,
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ])
 
     render(<RouterProvider router={router} />)
 
@@ -137,21 +120,6 @@ describe('CatItem', () => {
           url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
         },
       })
-
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'cat/:catId',
-            element: <CatCard />,
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ])
 
     render(<RouterProvider router={router} />)
 
@@ -223,21 +191,6 @@ describe('CatCard', () => {
           url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
         },
       })
-
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'cat/:catId',
-            element: <CatCard />,
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ])
 
     render(<RouterProvider router={router} />)
 

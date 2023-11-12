@@ -1,14 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
-import {
-  createMemoryRouter,
-  MemoryRouter,
-  RouterProvider,
-} from 'react-router-dom'
-import { App } from '../../App'
-import { CatCard } from '../../routes/CatCard'
-import { ErrorPage } from '../../routes/error-page'
-import { NotFound } from '../../routes/NotFound'
+import { MemoryRouter, RouterProvider } from 'react-router-dom'
+import { router } from '../../utils/router'
 import { CatList } from './CatList'
 
 describe('CatList', () => {
@@ -54,21 +47,6 @@ describe('CatList', () => {
         },
         items: mockItems,
       })
-
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'cat/:catId',
-            element: <CatCard />,
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ])
 
     render(<RouterProvider router={router} />)
 

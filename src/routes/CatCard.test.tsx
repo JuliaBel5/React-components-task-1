@@ -1,10 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
-import { createMemoryRouter, RouterProvider } from 'react-router-dom'
-import { App } from '../App'
+import { MemoryRouter, RouterProvider } from 'react-router-dom'
+import { router } from '../utils/router'
 import { CatCard } from './CatCard'
-import { ErrorPage } from './error-page'
-import { NotFound } from './NotFound'
 
 const mockItems = [
   {
@@ -22,68 +20,16 @@ const mockItems = [
 ]
 
 describe('CatList', () => {
-  /*  it('checks that a loading indicator is displayed while fetching data', async () => {
-    nock('https://2ff5030c446d8ca4.mokky.dev')
-      .defaultReplyHeaders({
-        'access-control-allow-origin': '*',
-      })
-      .get('/breeds?name=*&page=1&limit=6')
-      .reply(200, {
-        meta: {
-          total_items: 67,
-          total_pages: 12,
-          current_page: 1,
-          per_page: 6,
-          remaining_count: 61,
-        },
-        items: mockItems,
-      })
+  it('checks that a loading indicator is displayed while fetching data', () => {
+    render(
+      <MemoryRouter>
+        <CatCard />
+      </MemoryRouter>,
+    )
 
-    nock('https://2ff5030c446d8ca4.mokky.dev')
-      .defaultReplyHeaders({
-        'access-control-allow-origin': '*',
-      })
-      .get('/breeds/1')
-      .reply(200, {
-        id: 1,
-        name: 'Test Cat 1',
-        description: 'Test description 1',
-        temperament: 'Test temperament 1',
-        image: {
-          id: 'ozEvzdVM-',
-          width: 1200,
-          height: 800,
-          url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
-        },
-      })
-
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'cat/:catId',
-            element: <CatCard />,
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ])
-
-    render(<RouterProvider router={router} />)
-
-    await waitFor(async () => {
-      const CatItem = screen.getByTestId('cat-1')
-      fireEvent.click(CatItem)
-
-      // Add a delay of 1 millisecond before asserting the presence of the loading indicator
-      await new Promise((resolve) => setTimeout(resolve, 1))
-
-      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
-    })
-  })*/
+    // checking the presence of the loading indicator
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
+  })
 
   it('should close CatCard on Close button', async () => {
     nock('https://2ff5030c446d8ca4.mokky.dev')
@@ -119,21 +65,6 @@ describe('CatList', () => {
           url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
         },
       })
-
-    const router = createMemoryRouter([
-      {
-        path: '/',
-        element: <App />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'cat/:catId',
-            element: <CatCard />,
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ])
 
     render(<RouterProvider router={router} />)
 

@@ -21,6 +21,7 @@ test('404 page is displayed for invalid route', () => {
       },
       { path: '*', element: <NotFound /> },
     ],
+
     { initialEntries: ['/some/bad/route'] },
   )
 
