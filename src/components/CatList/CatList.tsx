@@ -33,7 +33,12 @@ export const CatList: React.FC<CatSearchProps> = () => {
       </>
     ) : (
       searchResults.map((cat) => (
-        <Link key={cat.id} role="link" to={`/cat/${cat.id}?${searchParams}`}>
+        <Link
+          key={cat.id}
+          data-testid={`cat-${cat.id}`}
+          role="link"
+          to={`/cat/${cat.id}?${searchParams}`}
+        >
           <CatItem cat={cat} />
         </Link>
       ))

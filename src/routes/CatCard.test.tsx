@@ -1,88 +1,157 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
-import {
-  createMemoryRouter,
-  MemoryRouter,
-  Outlet,
-  Route,
-  RouterProvider,
-} from 'react-router-dom'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { App } from '../App'
-import { CatItem } from '../components/CatItem/CatItem'
-import { CatList } from '../components/CatList/CatList'
-import { SearchResultsContext } from '../store/SearchContext'
 import { CatCard } from './CatCard'
 import { ErrorPage } from './error-page'
 import { NotFound } from './NotFound'
 
-const mockContext = {
-  searchResults: [
-    {
-      id: '1',
-      name: 'Test Cat',
-      description: 'Test description',
-      temperament: 'Test temperament',
-    },
-  ],
-  setSearchResults: () => {},
-  currentPage: 1,
-  setCurrentPage: () => {},
-  totalPages: 2,
-  setTotalPages: () => {},
-  isLoading: false,
-  setIsLoading: () => {},
-  limit: 6,
-  setLimit: () => {},
-  cat: {
-    id: '1',
-    name: 'Test Cat',
-    description: 'Test description',
-    temperament: 'Test temperament',
+const mockItems = [
+  {
+    id: 1,
+    name: 'Test Cat 1',
+    description: 'Test description 1',
+    temperament: 'Test temperament 1',
   },
-  setCat: () => {},
-}
+  {
+    id: 2,
+    name: 'Test Cat 2',
+    description: 'Test description 2',
+    temperament: 'Test temperament 2',
+  },
+]
 
 describe('CatList', () => {
-  it('clicking on CloseButton hides the CatCard', async () => {
-    // Set up the mock server with Nock
-    nock('https://2ff5030c446d8ca4.mokky.dev').get('/breeds/1').reply(200, {
-      id: 1,
-      name: 'Test Cat',
-      description: 'Test description',
-      temperament: 'Test temperament',
+  /*  it('checks that a loading indicator is displayed while fetching data', async () => {
+    nock('https://2ff5030c446d8ca4.mokky.dev')
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/breeds?name=*&page=1&limit=6')
+      .reply(200, {
+        meta: {
+          total_items: 67,
+          total_pages: 12,
+          current_page: 1,
+          per_page: 6,
+          remaining_count: 61,
+        },
+        items: mockItems,
+      })
+
+    nock('https://2ff5030c446d8ca4.mokky.dev')
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/breeds/1')
+      .reply(200, {
+        id: 1,
+        name: 'Test Cat 1',
+        description: 'Test description 1',
+        temperament: 'Test temperament 1',
+        image: {
+          id: 'ozEvzdVM-',
+          width: 1200,
+          height: 800,
+          url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
+        },
+      })
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <App />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'cat/:catId',
+            element: <CatCard />,
+          },
+        ],
+      },
+      { path: '*', element: <NotFound /> },
+    ])
+
+    render(<RouterProvider router={router} />)
+
+    await waitFor(async () => {
+      const CatItem = screen.getByTestId('cat-1')
+      fireEvent.click(CatItem)
+
+      // Add a delay of 1 millisecond before asserting the presence of the loading indicator
+      await new Promise((resolve) => setTimeout(resolve, 1))
+
+      expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
+    })
+  })*/
+
+  it('should close CatCard on Close button', async () => {
+    nock('https://2ff5030c446d8ca4.mokky.dev')
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/breeds?name=*&page=1&limit=6')
+      .reply(200, {
+        meta: {
+          total_items: 67,
+          total_pages: 12,
+          current_page: 1,
+          per_page: 6,
+          remaining_count: 61,
+        },
+        items: mockItems,
+      })
+
+    nock('https://2ff5030c446d8ca4.mokky.dev')
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/breeds/1')
+      .reply(200, {
+        id: 1,
+        name: 'Test Cat 1',
+        description: 'Test description 1',
+        temperament: 'Test temperament 1',
+        image: {
+          id: 'ozEvzdVM-',
+          width: 1200,
+          height: 800,
+          url: 'https://cdn2.thecatapi.com/images/ozEvzdVM-.jpg',
+        },
+      })
+
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <App />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'cat/:catId',
+            element: <CatCard />,
+          },
+        ],
+      },
+      { path: '*', element: <NotFound /> },
+    ])
+
+    render(<RouterProvider router={router} />)
+
+    await waitFor(async () => {
+      expect(screen.getByText('Test Cat 2')).toBeInTheDocument()
     })
 
-    render(
-      <MemoryRouter>
-        <SearchResultsContext.Provider value={mockContext}>
-          <CatList />
-          <CatCard />
-        </SearchResultsContext.Provider>
-      </MemoryRouter>,
-    )
-
-    const catListElement = screen.getByTestId('cat-item')
-    expect(catListElement).toBeInTheDocument()
-
-    //   const link = screen.getByRole('link')
-    fireEvent.click(catListElement)
-
-    // expect(window.location.search).toBe('/cat/1?urlSearchTerm=&page=1&limit=6')
-    const catCardElement = screen.getByTestId('cat-card')
-    expect(catCardElement).toBeInTheDocument()
-
-    const closeButton = screen.getByText('Close')
-    fireEvent.click(closeButton)
-
-    await waitFor(() => {
-      //     expect(catCardElement).not.toBeInTheDocument()
-      expect(window.location.pathname).toBe('/')
+    await waitFor(async () => {
+      const catCardElement = screen.getByTestId('cat-1')
+      fireEvent.click(catCardElement)
     })
+
+    await waitFor(async () => {
+      expect(await screen.findByTestId('cat-card'))
+      const catCardElementClose = await screen.findByTestId('close-Test Cat 1')
+      fireEvent.click(catCardElementClose)
+    })
+
+    expect(screen.queryByTestId('cat-card')).toBeNull()
   })
 })

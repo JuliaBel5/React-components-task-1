@@ -21,7 +21,7 @@ export const SearchInput: React.FC<object> = () => {
     setIsLoading,
     limit,
   } = useContext(SearchResultsContext)
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [_searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     setSearchParams({
@@ -31,8 +31,6 @@ export const SearchInput: React.FC<object> = () => {
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit])
-
-  console.log(searchParams)
 
   useEffect(() => {
     searchCat({ page: currentPage, limit })
@@ -44,7 +42,6 @@ export const SearchInput: React.FC<object> = () => {
   }
   const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
-    console.log('Button clicked')
     setCurrentPage(1)
     setSearchParams({
       urlSearchTerm: searchTerm.trim(),

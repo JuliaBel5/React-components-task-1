@@ -5,7 +5,8 @@ import { MoonSpinner } from '../components/MoonSpinner'
 import { SearchResultsContext } from '../store/SearchContext'
 
 export const CatCard: React.FC<object> = () => {
-  const { cat, setCat } = useContext(SearchResultsContext)
+  const { cat, setCat, isLoading, setIsLoading } =
+    useContext(SearchResultsContext)
   const { catId } = useParams<{ catId: string }>()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -13,16 +14,19 @@ export const CatCard: React.FC<object> = () => {
   useEffect(() => {
     const baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
     const fetchCatDetails = async () => {
+      setIsLoading(true)
       try {
         const response = await fetch(`${baseUrl}/${catId}`)
         const data = await response.json()
         setCat(data)
+        setIsLoading(false)
       } catch (error) {
         console.error('Error fetching cat details:', error)
       }
     }
 
     fetchCatDetails()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catId])
 
   const handleCloseButtonClick = () => {
@@ -32,8 +36,8 @@ export const CatCard: React.FC<object> = () => {
     navigate(`/?${searchParams}`)
   }
 
-  if (!cat) {
-    return <MoonSpinner />
+  if (!cat || isLoading) {
+    return <MoonSpinner data-testid="loading-indicator" />
   }
 
   const { image, description, temperament, name } = cat
@@ -50,12 +54,13 @@ export const CatCard: React.FC<object> = () => {
       <div className="modal-container" data-testid="cat-card">
         <div className="cat-card">
           <button
+            data-testid={`close-${name}`}
             className="close-button, gradient-button"
             onClick={handleCloseButtonClick}
           >
             Close
           </button>
-          <h1 className="title">{name}</h1>
+          <h1 className="title"> {name}</h1>
           <img src={image ? image.url : imagePlaceholder} alt={name} />
           <h3 className="card-description">{description}</h3>
           <h3 className="temperament">{temperament}</h3>
