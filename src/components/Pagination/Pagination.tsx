@@ -1,18 +1,20 @@
 import '../catSearch.css'
-import { useContext } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
-  SearchDataContext,
-  SearchResultsContext,
-} from '../../store/SearchContext'
+  searchResultsActions,
+  useAppDispatch,
+  useAppSelector,
+} from '../../features/searchResultsSlice'
 
 export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
-  const { searchTerm } = useContext(SearchDataContext)
-  const { setCurrentPage, limit } = useContext(SearchResultsContext)
+  const { searchTerm } = useAppSelector((state) => state.search)
+  const { limit } = useAppSelector((state) => state.searchResults)
+
   const [_searchParams, setSearchParams] = useSearchParams()
+  const dispatch = useAppDispatch()
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
+    dispatch(searchResultsActions.setCurrentPage(page))
     setSearchParams({
       urlSearchTerm: searchTerm.trim(),
       page: page.toString(),

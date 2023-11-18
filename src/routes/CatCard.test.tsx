@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
+import { Provider } from 'react-redux'
 import { MemoryRouter, RouterProvider } from 'react-router-dom'
+import { store } from '../store/store'
 import { router } from '../utils/router'
 import { CatCard } from './CatCard'
 
@@ -22,9 +24,12 @@ const mockItems = [
 describe('CatList', () => {
   it('checks that a loading indicator is displayed while fetching data', () => {
     render(
-      <MemoryRouter>
-        <CatCard />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <CatCard />
+        </MemoryRouter>
+        ,
+      </Provider>,
     )
 
     // checking the presence of the loading indicator
@@ -66,7 +71,11 @@ describe('CatList', () => {
         },
       })
 
-    render(<RouterProvider router={router} />)
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
+    )
 
     await waitFor(async () => {
       expect(screen.getByText('Test Cat 2')).toBeInTheDocument()

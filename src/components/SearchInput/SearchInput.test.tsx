@@ -1,11 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { MemoryRouter, RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
 import { expect, test } from 'vitest'
+import { store } from '../../store/store'
 import { router } from '../../utils/router'
-import { SearchInput } from './SearchInput'
 
 test('should save entered value to local storage on Search button click', () => {
-  render(<RouterProvider router={router} />)
+  render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>,
+  )
 
   const searchInput = screen.getByPlaceholderText('Please, enter a cat breed')
   const searchButton = screen.getByText('Search')
@@ -21,21 +26,22 @@ test('should save entered value to local storage on Search button click', () => 
 })
 
 test('should retrieve value from local storage upon mounting', () => {
-  // Set up the local storage with a test value
-  localStorage.setItem('searchTerm', 'test value')
+  render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>,
+  )
 
-  render(<RouterProvider router={router} />)
-
-  // Assert that the component retrieves the value from local storage
+  // Verify that the component retrieves the value from local storage
   expect(screen.getByPlaceholderText('Please, enter a cat breed')).toHaveValue(
-    'test value',
+    'Persian',
   )
 })
 test('should render the input field and button', () => {
   const { getByPlaceholderText, getByText } = render(
-    <MemoryRouter>
-      <SearchInput />
-    </MemoryRouter>,
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>,
   )
 
   const inputField = getByPlaceholderText('Please, enter a cat breed')

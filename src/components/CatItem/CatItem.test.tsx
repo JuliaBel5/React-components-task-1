@@ -1,7 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
+import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
+import { store } from '../../store/store'
 import { router } from '../../utils/router'
 
 const mockURL = 'https://2ff5030c446d8ca4.mokky.dev'
@@ -56,7 +58,11 @@ describe('CatItem', () => {
         },
       })
 
-    render(<RouterProvider router={router} />)
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
+    )
 
     await waitFor(async () => {
       expect(screen.getByText('Test Cat 2')).toBeInTheDocument()
@@ -121,7 +127,11 @@ describe('CatItem', () => {
         },
       })
 
-    render(<RouterProvider router={router} />)
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
+    )
 
     await waitFor(async () => {
       expect(screen.getByText('Test Cat 2')).toBeInTheDocument()
@@ -192,7 +202,11 @@ describe('CatCard', () => {
         },
       })
 
-    render(<RouterProvider router={router} />)
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
+    )
 
     await waitFor(async () => {
       expect(screen.getByText('Test Cat 2')).toBeInTheDocument()

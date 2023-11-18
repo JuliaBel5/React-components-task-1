@@ -1,26 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { CatService } from '../../services/CatService'
 import {
-  SearchDataContext,
-  SearchResultsContext,
-} from '../../store/SearchContext'
+  searchResultsActions,
+  useAppDispatch,
+  useAppSelector,
+} from '../../features/searchResultsSlice'
+import { searchActions } from '../../features/searchSlice'
+import { CatService } from '../../services/CatService'
 
 const catCard = new CatService()
 
 export const SearchInput: React.FC<object> = () => {
-  const { searchTerm, setSearchTerm } = useContext(SearchDataContext)
-  const {
-    setSearchResults,
-    currentPage,
-    setCurrentPage,
+  const { searchTerm } = useAppSelector((state) => state.search)
+  const { currentPage, limit } = useAppSelector((state) => state.searchResults)
+  const dispatch = useAppDispatch()
 
-    setTotalPages,
-
-    setIsLoading,
-    limit,
-  } = useContext(SearchResultsContext)
   const [_searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
@@ -38,11 +32,11 @@ export const SearchInput: React.FC<object> = () => {
   }, [currentPage, limit])
 
   const handleSearchInputChange = (event: { target: { value: string } }) => {
-    setSearchTerm(event.target.value)
+    dispatch(searchActions.setSearchTerm(event.target.value))
   }
   const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
-    setCurrentPage(1)
+    dispatch(searchResultsActions.setCurrentPage(1))
     setSearchParams({
       urlSearchTerm: searchTerm.trim(),
       page: currentPage.toString(),
@@ -59,13 +53,13 @@ export const SearchInput: React.FC<object> = () => {
     breed = searchTerm.trim(),
     limit = 6,
   } = {}) => {
-    setIsLoading(true)
+    dispatch(searchResultsActions.setIsLoading(true))
     const response = await catCard.getCats({ breed, page, limit })
 
-    setSearchResults(response.items)
+    dispatch(searchResultsActions.setSearchResults(response.items))
 
-    setTotalPages(response.meta.total_pages)
-    setIsLoading(false)
+    dispatch(searchResultsActions.setTotalPages(response.meta.total_pages))
+    dispatch(searchResultsActions.setIsLoading(false))
   }
 
   return (

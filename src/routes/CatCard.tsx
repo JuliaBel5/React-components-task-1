@@ -1,12 +1,19 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { imagePlaceholder } from '../components/CatItem/CatItem'
 import { MoonSpinner } from '../components/MoonSpinner'
-import { SearchResultsContext } from '../store/SearchContext'
+import {
+  searchResultsActions,
+  useAppDispatch,
+  useAppSelector,
+} from '../features/searchResultsSlice'
+//import { SearchResultsContext } from '../store/SearchContext'
 
 export const CatCard: React.FC<object> = () => {
-  const { cat, setCat, isLoading, setIsLoading } =
-    useContext(SearchResultsContext)
+  const { cat, isLoading } = useAppSelector((state) => state.searchResults)
+
+  const dispatch = useAppDispatch()
+
   const { catId } = useParams<{ catId: string }>()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
@@ -14,12 +21,12 @@ export const CatCard: React.FC<object> = () => {
   useEffect(() => {
     const baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
     const fetchCatDetails = async () => {
-      setIsLoading(true)
+      dispatch(searchResultsActions.setIsLoading(true))
       try {
         const response = await fetch(`${baseUrl}/${catId}`)
         const data = await response.json()
-        setCat(data)
-        setIsLoading(false)
+        dispatch(searchResultsActions.setCat(data))
+        dispatch(searchResultsActions.setIsLoading(false))
       } catch (error) {
         console.error('Error fetching cat details:', error)
       }

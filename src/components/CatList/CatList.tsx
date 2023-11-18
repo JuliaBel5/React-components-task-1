@@ -1,7 +1,11 @@
 import '../catSearch.css'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Link, Outlet, useSearchParams } from 'react-router-dom'
-import { SearchResultsContext } from '../../store/SearchContext'
+import {
+  searchResultsActions,
+  useAppDispatch,
+  useAppSelector,
+} from '../../features/searchResultsSlice'
 import { CatItem } from '../CatItem/CatItem'
 import { MoonSpinner } from '../MoonSpinner'
 import { Pagination } from '../Pagination/Pagination'
@@ -9,21 +13,16 @@ import { SearchInput } from '../SearchInput/SearchInput'
 import { Select } from '../Select/Select'
 
 export const CatList: React.FC<CatSearchProps> = () => {
-  const {
-    searchResults,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    isLoading,
-    limit,
-    setLimit,
-  } = useContext(SearchResultsContext)
+  const { searchResults, currentPage, limit, totalPages, isLoading } =
+    useAppSelector((state) => state.searchResults)
+
+  const dispatch = useAppDispatch()
 
   const [searchParams] = useSearchParams()
 
   const handleLimitChange = (newLimit: number) => {
-    setLimit(newLimit)
-    setCurrentPage(1)
+    dispatch(searchResultsActions.setLimit(newLimit))
+    dispatch(searchResultsActions.setCurrentPage(1))
   }
 
   const breeds =

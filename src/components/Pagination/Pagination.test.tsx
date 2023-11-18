@@ -1,11 +1,17 @@
 import { act, render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
+import { store } from '../../store/store'
 import { router } from '../../utils/router'
 
 describe('Pagination', () => {
   it('should update URL query parameter when page changes', () => {
-    render(<RouterProvider router={router} />)
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
+    )
 
     const prevButton = screen.getByRole('button', { name: '«' })
     const nextButton = screen.getByRole('button', { name: '»' })

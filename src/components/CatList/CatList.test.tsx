@@ -1,37 +1,56 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
-import { MemoryRouter, RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
+import { store } from '../../store/store'
 import { router } from '../../utils/router'
-import { CatList } from './CatList'
+
+const mockItems = [
+  {
+    id: 1,
+    name: 'Test Cat 1',
+    description: 'Test description 1',
+    temperament: 'Test temperament 1',
+  },
+  {
+    id: 2,
+    name: 'Test Cat 2',
+    description: 'Test description 2',
+    temperament: 'Test temperament 2',
+  },
+]
 
 describe('CatList', () => {
-  it('Check that an appropriate message is displayed if no cards are present', () => {
+  it('Check that an appropriate message is displayed if no cards are present', async () => {
+    nock('https://2ff5030c446d8ca4.mokky.dev')
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+      })
+      .get('/breeds?name=*&page=1&limit=6')
+      .reply(200, {
+        meta: {
+          total_items: 0,
+          total_pages: 1,
+          current_page: 1,
+          per_page: 6,
+          remaining_count: 0,
+        },
+        items: [],
+      })
+
     render(
-      <MemoryRouter>
-        <CatList />
-      </MemoryRouter>,
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
     )
 
     // checking the presence of the error message
-    expect(screen.getByText('nothing found')).toBeInTheDocument()
+    await waitFor(async () => {
+      expect(screen.getByText('nothing found')).toBeInTheDocument()
+    })
   })
 
   it('verifies that the component renders the specified number of cards', async () => {
-    const mockItems = [
-      {
-        id: 1,
-        name: 'Test Cat 1',
-        description: 'Test description 1',
-        temperament: 'Test temperament 1',
-      },
-      {
-        id: 2,
-        name: 'Test Cat 2',
-        description: 'Test description 2',
-        temperament: 'Test temperament 2',
-      },
-    ]
-
     nock('https://2ff5030c446d8ca4.mokky.dev')
       .defaultReplyHeaders({
         'access-control-allow-origin': '*',
@@ -48,7 +67,11 @@ describe('CatList', () => {
         items: mockItems,
       })
 
-    render(<RouterProvider router={router} />)
+    render(
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>,
+    )
 
     // Verify the length of the data array
     test('verifies the length of the data array', () => {
