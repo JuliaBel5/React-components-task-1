@@ -1,0 +1,388 @@
+
+body {
+  background-image: url('https://plus.unsplash.com/premium_photo-1673541162114-3c39f7f1235c?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjMzfHxsaWdodCUyMHllbGxvdyUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D');
+  background-image: url('https://img.freepik.com/premium-vector/cute-kawaii-cats-kittens-funny-poses-vector-seamless-pattern-funny-cartoon-fat-cats-print_41901-1750.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698710400&semt=ais');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+}
+
+.error-button {
+  align-self: center; 
+  max-width: 30%;
+  max-width: 30%;
+  margin-top: 0;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  
+}
+
+.input-container input {
+  margin-bottom: 10px;
+  max-width: 75%;
+  border: 2px solid #B5BAD0;
+  border-radius: 10px;
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
+  color: rgb(75, 65, 65);
+}
+select {
+  margin: 10px;
+  min-width: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  border: 2px solid #B5BAD0;
+  border-radius: 2px;
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
+  color: rgb(75, 65, 65);
+}
+label {
+  font-size: 24px;
+  font-weight: 600;
+  color: rgb(75, 65, 65);
+}
+.search-results  {
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 90vw;
+  align-items: flex-start;
+ 
+}
+
+.results-container{
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  padding: 20px;
+}
+.card-container {
+  min-width: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  
+}
+.modal-container {
+  display: flex;
+  justify-content: center;
+  border-left: 2px solid rgb(107, 100, 100);
+}
+
+.result-card {
+  flex: 1 0 auto;
+  max-width: 300px;
+  border: 2px solid rgb(107, 100, 100);
+  color: rgb(75, 65, 65);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  background: linear-gradient(to right, #f3ede7, #f8e6ca 50%, #f4d0a6 50%, #f6cc97 100%) ;
+  transition: 0.4s;
+  cursor: pointer;
+
+}
+
+.result-card:hover {
+  background:linear-gradient(to right, #c4b397,  #f6dfc4 50%,  #ffefdf 50%,  #f3eee7 100%);
+  border: 2px solid rgb(15, 13, 13);
+  color:rgb(15, 13, 13);
+  transition: 0.4s;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.result-card img {
+  
+  max-height: 250px;
+  max-width: 80%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+
+.cat-card {
+   z-index: 2;
+  flex: 1 2 auto;
+  max-width: 300px;
+  max-height: 90%;
+  border: 2px solid rgb(107, 100, 100);
+  color: rgb(75, 65, 65);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  background: linear-gradient(to right, #f3ede7, #f8e6ca 50%, #f4d0a6 50%, #f6cc97 100%) ;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.cat-card:hover {
+  background:linear-gradient(to right, #c4b397,  #f6dfc4 50%,  #ffefdf 50%,  #f3eee7 100%);
+  border: 2px solid rgb(15, 13, 13);
+  color:rgb(15, 13, 13);
+  transition: 0.4s;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.cat-card img {
+  max-height: 40%;
+  max-width: 80%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+a {
+  display: flex;
+}
+
+img:hover{
+  transform: scale(1.08);
+  transition-duration: 0.4s;
+  border: 2px solid rgb(75, 65, 65);
+  cursor: pointer;
+}
+
+.shadow {
+  position: fixed;
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100%; 
+  overflow: hidden; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+@media (min-width: 1100px) {
+  .result-card,
+  .cat-card {
+    flex-basis: calc(35% - 20px);
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1099px) {
+  .result-card,
+  .cat-card {
+    flex-basis: calc(38.33% - 20px);
+  }
+}
+
+@media (min-width: 500px) and (max-width: 699px) {
+  .result-card,
+  .cat-card {
+    flex-basis: calc(42% - 10px);
+  }
+  .search-results {
+    justify-content: center;
+  }
+}
+  @media (min-width: 621px) and (max-width: 699px) {
+    .cat-card {
+      max-width: 250px;
+      max-height: fit-content;
+      padding: 10px;
+      margin-left: 10px;
+  }
+}
+@media (min-width: 550px) and (max-width: 620px) {
+.cat-card {
+  max-width: 200px;
+  max-height: fit-content;
+  padding: 10px;
+  margin-left: 10px;
+}
+}
+
+@media (min-width: 500px) and (max-width: 549px) {
+  .cat-card {
+    max-width: 170px;
+    max-height: fit-content;
+    padding: 10px;
+    margin-left: 0;
+  }
+  }
+@media (max-width: 499px) {
+  .result-card,
+  .cat-card {
+    flex-basis: 100%;
+  }
+  .cat-card {
+    max-width: 150px;
+    max-height: fit-content;
+    padding: 10px;
+    margin-left: 0;
+  }
+}
+.description {
+  width: 90%;
+  font-size: 16px;
+  text-align: justify;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.card-description {
+  width: 90%;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.temperament {
+  width: 90%;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.title {
+  font-size: 28px;
+}
+
+.gradient-button {
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf ) ;
+  border: 2px solid #B5BAD0;
+  color: rgb(19, 1, 1);
+  padding: 15px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  max-width: 35%;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(to left, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf);
+  color: rgb(75, 65, 65);;
+  border: 2px solid rgb(75, 65, 65);
+  transition: 0.4s;
+}
+
+.gradient-button:active {
+  background: rgb(181, 146, 101);
+}
+
+.pagination-button {
+  background: linear-gradient(to right, #f3f1e7, #ffffdf, #f6f1c4, #f7f2bf );
+  border-radius: 50px;
+  border:  2px solid #ccc;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.pagination-button:hover {
+  background:linear-gradient(to right, #c4b397,  #f6dfc4,  #ffefdf,  #f3eee7);
+  border: 2px solid rgb(75, 65, 65);
+  transition: 0.4s;
+}
+
+.pagination-button:active {
+  background: rgb(181, 146, 101);
+}
+.error-message {
+  width: 400px;
+  height: 200px;
+  color: #f7f2bf;
+  text-align: center;
+  font-size: 44px;
+  border: 2px solid rgb(66, 6, 6); 
+  padding: 10px; 
+  transition: all 0.3s ease;
+  background-image: url('https://img.freepik.com/premium-photo/sad-poor-kitten-rain-digital-illustration-painting_743855-3730.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  display: flex;  
+  justify-content: center;  
+  align-items: flex-end; 
+}
+
+.error-message:hover {
+  background-color: #ffffdf; 
+  color: rgb(244, 149, 25); 
+  transform: rotate(360deg); 
+}
+@media screen and (max-width: 600px) {
+  .error-message {
+    width: 300px;
+    height: 150px;
+    font-size: 30px;
+  }
+}
+.spinner {
+  
+    width: 100px;
+    height: 100px;
+    border: 10px solid transparent;
+    border-top: 10px solid #B4654A;
+    border-left: 10px solid #B4654A;
+    border-right: 10px solid #B4654A;
+    border-radius: 100%;
+    animation: rotate 2s linear infinite;
+    transform: translate(-50%, -50%);
+    margin: 10px;
+  
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 5px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.orange-gradient-button {
+  background: linear-gradient(to right, #f3ede7, #f8e6ca, #f4d0a6, #f6cc97 ) ;
+  border: 2px solid #B5BAD0;
+  color: rgb(19, 1, 1);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.orange-gradient-button:hover {
+  background: linear-gradient(to right, #f6cc97 , #f4d0a6, #f8e6ca, #f3ede7);
+  color: #157A6E;
+  border: 2px solid rgb(59, 56, 56);
+  transition: 0.4s;
+}
+
+.orange-gradient-button:active {
+  background: #ebf3e7;
+}
