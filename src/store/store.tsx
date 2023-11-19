@@ -1,12 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { catsReducer } from '../features/catSlice'
+import { configureStore, Store } from '@reduxjs/toolkit'
 import { searchResultsReducer } from '../features/searchResultsSlice'
 import { searchReducer } from '../features/searchSlice'
+import { catApi } from '../services/catApi'
 
-export const store = configureStore({
+export const store: Store = configureStore({
   reducer: {
     search: searchReducer,
     searchResults: searchResultsReducer,
-    cats: catsReducer,
+    [catApi.reducerPath]: catApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(catApi.middleware),
 })

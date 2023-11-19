@@ -2,24 +2,30 @@ import { useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { imagePlaceholder } from '../components/CatItem/CatItem'
 import { MoonSpinner } from '../components/MoonSpinner'
-import { getBreed } from '../features/catSlice'
-import { useAppDispatch, useAppSelector } from '../features/searchResultsSlice'
-import { NotFound } from './NotFound'
+import {
+  searchResultsActions,
+  useAppDispatch,
+  useAppSelector,
+} from '../features/searchResultsSlice'
+import { useGetBreedQuery } from '../services/catApi'
 
 export const CatCard: React.FC<object> = () => {
-  const { cat, isLoading } = useAppSelector((state) => state.searchResults)
-  const { status } = useAppSelector((state) => state.cats)
+  const { isLoading } = useAppSelector((state) => state.searchResults)
+
   const dispatch = useAppDispatch()
 
-  const { catId } = useParams<{ catId: string }>()
+  const { catId = '' } = useParams<{ catId: string }>()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
+  const { data: fetchedCat, isLoading: catLoading } = useGetBreedQuery(catId)
+
   useEffect(() => {
-    if (catId) {
-      dispatch(getBreed(catId))
+    if (fetchedCat) {
+      dispatch(searchResultsActions.setCat(fetchedCat))
     }
-  }, [catId, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchedCat])
 
   const handleCloseButtonClick = () => {
     navigate(`/?${searchParams}`)
@@ -28,39 +34,36 @@ export const CatCard: React.FC<object> = () => {
     navigate(`/?${searchParams}`)
   }
 
-  if (!cat || isLoading || status === 'loading') {
+  if (!fetchedCat || isLoading) {
     return <MoonSpinner />
   }
-  if (status === 'failed') {
-    return <NotFound />
-  }
-  const { image, description, temperament, name } = cat
-  if (status === 'succeeded') {
-    return (
-      <>
-        <div
-          className="shadow"
-          onClick={handleContainerClick}
-          role="textbox"
-          tabIndex={0}
-        />
 
-        <div className="modal-container" data-testid="cat-card">
-          <div className="cat-card">
-            <button
-              data-testid={`close-${name}`}
-              className="close-button, gradient-button"
-              onClick={handleCloseButtonClick}
-            >
-              Close
-            </button>
-            <h1 className="title"> {name}</h1>
-            <img src={image ? image.url : imagePlaceholder} alt={name} />
-            <h3 className="card-description">{description}</h3>
-            <h3 className="temperament">{temperament}</h3>
-          </div>
+  const { image, description, temperament, name } = fetchedCat
+
+  return (
+    <>
+      <div
+        className="shadow"
+        onClick={handleContainerClick}
+        role="textbox"
+        tabIndex={0}
+      />
+
+      <div className="modal-container" data-testid="cat-card">
+        <div className="cat-card">
+          <button
+            data-testid={`close-${name}`}
+            className="close-button, gradient-button"
+            onClick={handleCloseButtonClick}
+          >
+            Close
+          </button>
+          <h1 className="title"> {name}</h1>
+          <img src={image ? image.url : imagePlaceholder} alt={name} />
+          <h3 className="card-description">{description}</h3>
+          <h3 className="temperament">{temperament}</h3>
         </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  )
 }
