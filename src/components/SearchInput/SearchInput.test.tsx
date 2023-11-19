@@ -1,9 +1,7 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { expect, test } from 'vitest'
-import { getCats } from '../../features/catSlice'
-import { useAppDispatch } from '../../features/searchResultsSlice'
 import { store } from '../../store/store'
 import { router } from '../../utils/router'
 
@@ -43,14 +41,14 @@ test('should retrieve value from local storage upon mounting', () => {
 // Dispatch the getCats.fulfilled action
 
 test('should render the input field and button', async () => {
-  const { getByPlaceholderText, getByText } = render(
+  render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>,
   )
 
-  const inputField = getByPlaceholderText('Please, enter a cat breed')
-  const searchButton = getByText('Search')
+  const inputField = screen.getByPlaceholderText('Please, enter a cat breed')
+  const searchButton = screen.getByText('Search')
 
   await waitFor(async () => {
     expect(inputField).toBeInTheDocument()

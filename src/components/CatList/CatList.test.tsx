@@ -2,6 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react'
 import nock from 'nock'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
+import { beforeEach, describe, it } from 'vitest'
+import { catApi } from '../../services/catApi'
 import { store } from '../../store/store'
 import { router } from '../../utils/router'
 
@@ -21,6 +23,9 @@ const mockItems = [
 ]
 
 describe('CatList', () => {
+  beforeEach(() => {
+    store.dispatch(catApi.util.resetApiState())
+  })
   it('Check that an appropriate message is displayed if no cards are present', async () => {
     nock('https://2ff5030c446d8ca4.mokky.dev')
       .defaultReplyHeaders({

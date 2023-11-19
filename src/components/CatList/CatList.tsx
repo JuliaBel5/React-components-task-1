@@ -6,6 +6,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../../features/searchResultsSlice'
+import { CatBreed } from '../../services/CatService'
 import { CatItem } from '../CatItem/CatItem'
 import { MoonSpinner } from '../MoonSpinner'
 import { Pagination } from '../Pagination/Pagination'
@@ -31,7 +32,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
         <h1 className="error-message">nothing found</h1>
       </>
     ) : (
-      searchResults.map((cat) => (
+      searchResults.map((cat: CatBreed) => (
         <Link
           key={cat.id}
           data-testid={`cat-${cat.id}`}

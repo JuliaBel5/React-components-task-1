@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
@@ -24,7 +25,10 @@ export const SearchInput: React.FC<object> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit])
 
-  const [getCats, { data: cats }] = useLazyGetCatsQuery()
+  const [getCats, { data: cats, isLoading, isError }] = useLazyGetCatsQuery()
+  useEffect(() => {
+    getCats({ page: currentPage, limit, breed: searchTerm.trim() })
+  }, [currentPage, limit])
 
   useEffect(() => {
     if (cats) {
