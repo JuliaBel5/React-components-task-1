@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { CatBreed } from '../services/CatService'
 import { store } from '../store/store'
+import { getBreed, getCats } from './catSlice'
 
 export interface SearchResultsState {
   searchResults: CatBreed[]
@@ -42,6 +43,32 @@ export const searchResultsSlice = createSlice({
     setCat: (state, action) => {
       state.cat = action.payload
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getCats.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCats.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.searchResults = action.payload.items
+        state.totalPages = action.payload.meta.total_pages
+      })
+      .addCase(getCats.rejected, (state, action) => {
+        state.isLoading = false
+        // Handle the error
+      })
+      .addCase(getBreed.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getBreed.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.cat = action.payload
+      })
+      .addCase(getBreed.rejected, (state, action) => {
+        state.isLoading = false
+        // Handle the error
+      })
   },
 })
 

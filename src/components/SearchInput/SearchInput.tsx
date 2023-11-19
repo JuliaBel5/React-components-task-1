@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { getCats } from '../../features/catSlice'
 import {
   searchResultsActions,
   useAppDispatch,
   useAppSelector,
 } from '../../features/searchResultsSlice'
 import { searchActions } from '../../features/searchSlice'
-import { CatService } from '../../services/CatService'
-
-const catCard = new CatService()
+import { NotFound } from '../../routes/NotFound'
+import { MoonSpinner } from '../MoonSpinner'
 
 export const SearchInput: React.FC<object> = () => {
   const { searchTerm } = useAppSelector((state) => state.search)
   const { currentPage, limit } = useAppSelector((state) => state.searchResults)
+  const { status } = useAppSelector((state) => state.cats)
+
   const dispatch = useAppDispatch()
 
   const [_searchParams, setSearchParams] = useSearchParams()
@@ -27,9 +29,8 @@ export const SearchInput: React.FC<object> = () => {
   }, [currentPage, limit])
 
   useEffect(() => {
-    searchCat({ page: currentPage, limit })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, limit])
+    dispatch(getCats({ page: currentPage, limit }))
+  }, [currentPage, dispatch, limit])
 
   const handleSearchInputChange = (event: { target: { value: string } }) => {
     dispatch(searchActions.setSearchTerm(event.target.value))
@@ -43,38 +44,35 @@ export const SearchInput: React.FC<object> = () => {
       limit: limit.toString(),
     })
 
-    searchCat({ breed: searchTerm.trim(), limit })
+    //searchCat({ breed: searchTerm.trim(), limit })
+    dispatch(getCats({ breed: searchTerm.trim(), limit }))
   }
   const handleKeyPress = (event: { key: string }) => {
     if (event.key === 'Enter') handleSearchButtonClick()
   }
-  const searchCat = async ({
-    page = 1,
-    breed = searchTerm.trim(),
-    limit = 6,
-  } = {}) => {
-    dispatch(searchResultsActions.setIsLoading(true))
-    const response = await catCard.getCats({ breed, page, limit })
 
-    dispatch(searchResultsActions.setSearchResults(response.items))
-
-    dispatch(searchResultsActions.setTotalPages(response.meta.total_pages))
-    dispatch(searchResultsActions.setIsLoading(false))
+  if (status === 'loading') {
+    return <MoonSpinner />
   }
 
-  return (
-    <div className="input-container">
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearchInputChange}
-        onKeyPress={handleKeyPress}
-        placeholder="Please, enter a cat breed"
-        className="input-field"
-      />
-      <button onClick={handleSearchButtonClick} className="gradient-button">
-        Search
-      </button>
-    </div>
-  )
+  if (status === 'failed') {
+    return <NotFound />
+  }
+  if (status === 'succeeded') {
+    return (
+      <div className="input-container">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchInputChange}
+          onKeyPress={handleKeyPress}
+          placeholder="Please, enter a cat breed"
+          className="input-field"
+        />
+        <button onClick={handleSearchButtonClick} className="gradient-button">
+          Search
+        </button>
+      </div>
+    )
+  }
 }
