@@ -25,7 +25,7 @@ export const SearchInput: React.FC<object> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit])
 
-  const [getCats, { data: cats, isLoading, isError }] = useLazyGetCatsQuery()
+  const [getCats, { data: cats }] = useLazyGetCatsQuery()
   useEffect(() => {
     getCats({ page: currentPage, limit, breed: searchTerm.trim() })
   }, [currentPage, limit])

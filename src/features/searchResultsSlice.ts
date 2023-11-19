@@ -9,6 +9,8 @@ export interface SearchResultsState {
   currentPage: number
   totalPages: number
   isLoading: boolean
+  isLoadingCats: boolean
+  isLoadingCat: boolean
   limit: number
   cat: CatBreed | null
 }
@@ -17,6 +19,8 @@ const initialState: SearchResultsState = {
   currentPage: 1,
   totalPages: 2,
   isLoading: false,
+  isLoadingCats: false,
+  isLoadingCat: false,
   limit: 6,
   cat: null,
 }
@@ -37,6 +41,12 @@ export const searchResultsSlice = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload
     },
+    setIsLoadingCats: (state, action) => {
+      state.isLoadingCats = action.payload
+    },
+    setIsLoadingCat: (state, action) => {
+      state.isLoadingCat = action.payload
+    },
     setLimit: (state, action) => {
       state.limit = action.payload
     },
@@ -48,26 +58,30 @@ export const searchResultsSlice = createSlice({
     builder
       .addCase(getCats.pending, (state) => {
         state.isLoading = true
+        state.isLoadingCats = true
       })
       .addCase(getCats.fulfilled, (state, action) => {
         state.isLoading = false
+        state.isLoadingCats = false
         state.searchResults = action.payload.items
         state.totalPages = action.payload.meta.total_pages
       })
-      .addCase(getCats.rejected, (state, action) => {
+      .addCase(getCats.rejected, (state, _action) => {
         state.isLoading = false
-        // Handle the error
+        state.isLoadingCats = false
       })
       .addCase(getBreed.pending, (state) => {
         state.isLoading = true
+        state.isLoadingCat = true
       })
       .addCase(getBreed.fulfilled, (state, action) => {
         state.isLoading = false
         state.cat = action.payload
+        state.isLoadingCat = false
       })
-      .addCase(getBreed.rejected, (state, action) => {
+      .addCase(getBreed.rejected, (state, _action) => {
         state.isLoading = false
-        // Handle the error
+        state.isLoadingCat = false
       })
   },
 })

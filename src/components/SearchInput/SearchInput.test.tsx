@@ -1,11 +1,11 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { expect, test } from 'vitest'
 import { store } from '../../store/store'
 import { router } from '../../utils/router'
 
-/*test('should save entered value to local storage on Search button click', () => {
+test('should save entered value to local storage on Search button click', () => {
   render(
     <Provider store={store}>
       <RouterProvider router={router} />
@@ -36,9 +36,7 @@ test('should retrieve value from local storage upon mounting', () => {
   expect(screen.getByPlaceholderText('Please, enter a cat breed')).toHaveValue(
     'Persian',
   )
-})*/
-
-// Dispatch the getCats.fulfilled action
+})
 
 test('should render the input field and button', async () => {
   render(

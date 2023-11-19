@@ -14,8 +14,14 @@ import { SearchInput } from '../SearchInput/SearchInput'
 import { Select } from '../Select/Select'
 
 export const CatList: React.FC<CatSearchProps> = () => {
-  const { searchResults, currentPage, limit, totalPages, isLoading } =
-    useAppSelector((state) => state.searchResults)
+  const {
+    searchResults,
+    currentPage,
+    limit,
+    totalPages,
+    isLoading,
+    isLoadingCats,
+  } = useAppSelector((state) => state.searchResults)
 
   const dispatch = useAppDispatch()
 
@@ -66,7 +72,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
           <Select value={limit} onChange={handleLimitChange} />
         </div>
         <div className="results-container">
-          {isLoading ? <MoonSpinner /> : breeds}
+          {isLoading || isLoadingCats ? <MoonSpinner /> : breeds}
         </div>
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>

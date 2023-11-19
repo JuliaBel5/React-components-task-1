@@ -10,7 +10,9 @@ import {
 import { useGetBreedQuery } from '../services/catApi'
 
 export const CatCard: React.FC<object> = () => {
-  const { isLoading } = useAppSelector((state) => state.searchResults)
+  const { isLoading, isLoadingCat } = useAppSelector(
+    (state) => state.searchResults,
+  )
 
   const dispatch = useAppDispatch()
 
@@ -18,7 +20,7 @@ export const CatCard: React.FC<object> = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const { data: fetchedCat, isLoading: catLoading } = useGetBreedQuery(catId)
+  const { data: fetchedCat } = useGetBreedQuery(catId)
 
   useEffect(() => {
     if (fetchedCat) {
@@ -34,7 +36,7 @@ export const CatCard: React.FC<object> = () => {
     navigate(`/?${searchParams}`)
   }
 
-  if (!fetchedCat || isLoading) {
+  if (!fetchedCat || isLoading || isLoadingCat) {
     return <MoonSpinner />
   }
 
