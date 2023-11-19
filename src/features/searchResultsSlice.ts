@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { catApi } from '../services/catApi'
 import { CatBreed } from '../services/CatService'
 import { store } from '../store/store'
-import { getBreed, getCats } from './catSlice'
 
 export interface SearchResultsState {
   searchResults: CatBreed[]
@@ -56,31 +56,22 @@ export const searchResultsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getCats.pending, (state) => {
-        state.isLoading = true
+      .addMatcher(catApi.endpoints.getCats.matchPending, (state) => {
         state.isLoadingCats = true
       })
-      .addCase(getCats.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isLoadingCats = false
-        state.searchResults = action.payload.items
-        state.totalPages = action.payload.meta.total_pages
-      })
-      .addCase(getCats.rejected, (state, _action) => {
-        state.isLoading = false
+      .addMatcher(catApi.endpoints.getCats.matchFulfilled, (state) => {
         state.isLoadingCats = false
       })
-      .addCase(getBreed.pending, (state) => {
-        state.isLoading = true
+      .addMatcher(catApi.endpoints.getCats.matchRejected, (state) => {
+        state.isLoadingCats = false
+      })
+      .addMatcher(catApi.endpoints.getBreed.matchPending, (state) => {
         state.isLoadingCat = true
       })
-      .addCase(getBreed.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.cat = action.payload
+      .addMatcher(catApi.endpoints.getBreed.matchFulfilled, (state) => {
         state.isLoadingCat = false
       })
-      .addCase(getBreed.rejected, (state, _action) => {
-        state.isLoading = false
+      .addMatcher(catApi.endpoints.getBreed.matchRejected, (state) => {
         state.isLoadingCat = false
       })
   },
