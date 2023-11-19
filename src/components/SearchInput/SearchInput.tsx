@@ -51,28 +51,23 @@ export const SearchInput: React.FC<object> = () => {
     if (event.key === 'Enter') handleSearchButtonClick()
   }
 
-  if (status === 'loading') {
-    return <MoonSpinner />
-  }
-
   if (status === 'failed') {
     return <NotFound />
   }
-  if (status === 'succeeded') {
-    return (
-      <div className="input-container">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchInputChange}
-          onKeyPress={handleKeyPress}
-          placeholder="Please, enter a cat breed"
-          className="input-field"
-        />
-        <button onClick={handleSearchButtonClick} className="gradient-button">
-          Search
-        </button>
-      </div>
-    )
-  }
+
+  return (
+    <div className="input-container">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchInputChange}
+        onKeyPress={handleKeyPress}
+        placeholder="Please, enter a cat breed"
+        className="input-field"
+      />
+      <button onClick={handleSearchButtonClick} className="gradient-button">
+        Search
+      </button>
+    </div>
+  )
 }

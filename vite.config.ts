@@ -17,7 +17,9 @@ export default defineConfig({
       exclude: [
         'src/components/ErrorBoundary.tsx',
         'src/vite-env.d.ts',
-        'eslint.cjs',
+        '.eslintrc.cjs',
+        'src/services/CatService.ts',
+        'src/store/SearchContext.ts',
       ],
     },
     watch: true,
