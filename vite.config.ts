@@ -20,6 +20,7 @@ export default defineConfig({
         '.eslintrc.cjs',
         'src/services/CatService.ts',
         'src/store/SearchContext.ts',
+        'src/features/catSlice.ts',
       ],
     },
     watch: true,
