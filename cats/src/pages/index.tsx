@@ -12,7 +12,10 @@ import { MoonSpinner } from '../components/MoonSpinner'
 import { Pagination } from '../components/Pagination/Pagination'
 import { SearchInput } from '../components/SearchInput/SearchInput'
 import { Select } from '../components/Select/Select'
+import CatCard from "../components/CatCard";
 import Link from 'next/link'
+
+import { useRouter } from 'next/router'
 
 export const CatList: React.FC<CatSearchProps> = () => {
   const {
@@ -40,19 +43,17 @@ export const CatList: React.FC<CatSearchProps> = () => {
       </>
     ) : (
       searchResults.map((cat: CatBreed) => (
-        
         <Link
-        href={`/${cat.id}`}
+          href={`/?details=${cat.id}`}
           key={cat.id}
           data-testid={`cat-${cat.id}`}
           role="link"
-         
         >
           <CatItem cat={cat} />
         </Link>
       ))
-    )
-  const [error, setError] = useState(false)
+    );
+  const [error, setError] = useState(false);
 
   if (error) {
     throw new Error('ММММММММММММММММРРРРР')
@@ -80,7 +81,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
       <div className="card-container">
-       {/* <Outlet />*/}
+       <CatCard/> 
       </div>
     </div>
   )

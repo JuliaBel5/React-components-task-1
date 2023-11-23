@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
-//import { useSearchParams } from 'react-router-dom'
+import { useRouter } from "next/router";
 import {
   searchResultsActions,
   useAppDispatch,
@@ -25,6 +25,18 @@ export const SearchInput: React.FC<object> = () => {
     return { props: { cats } }
   }
 
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        urlSearchTerm: searchTerm.trim(),
+        page: currentPage.toString(),
+        limit: limit.toString(),
+      },
+    });
+  }, [currentPage, limit, router, searchTerm]);
 
   useEffect(() => {
    // getCats({ page: currentPage, limit, breed: searchTerm.trim() })
@@ -49,12 +61,15 @@ export const SearchInput: React.FC<object> = () => {
   const handleSearchButtonClick = () => {
     localStorage.setItem('searchTerm', searchTerm.trim())
     dispatch(searchResultsActions.setCurrentPage(1))
-    /*setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: currentPage.toString(),
-      limit: limit.toString(),
-    })*/
-    getCats({ page: currentPage, limit, breed: searchTerm.trim() })
+    router.push({
+      pathname: router.pathname,
+      query: {
+        urlSearchTerm: searchTerm.trim(),
+        page: currentPage.toString(),
+        limit: limit.toString(),
+      },
+    });
+    getServerSideProps()
   }
 
   const handleKeyPress = (event: { key: string }) => {

@@ -19,7 +19,7 @@ export const CatCard: React.FC<object> = () => {
   )
   const router = useRouter()
   const { id } = router.query
-  console.log(id)
+  
   let catId = ""
   if (id) { 
  catId = id.toString()
