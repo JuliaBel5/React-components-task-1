@@ -37,7 +37,8 @@ export const SearchInput: React.FC<object> = () => {
         limit: limit.toString(),
       },
     });
-  }, [currentPage, limit, router, searchTerm]);
+    console.log(router.query)
+  }, [currentPage, limit, searchTerm]);
 
   useEffect(() => {
     // getCats({ page: currentPage, limit, breed: searchTerm.trim() })

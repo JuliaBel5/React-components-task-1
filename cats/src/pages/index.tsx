@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 export const CatList: React.FC<CatSearchProps> = () => {
 
   const router = useRouter()
+  console.log(router.query.urlSearchTerm, router.query.page, router.query.limit)
   const {
     searchResults,
     currentPage,
@@ -31,7 +32,9 @@ export const CatList: React.FC<CatSearchProps> = () => {
 
   const dispatch = useAppDispatch()
 
-  //const [searchParams] = useSearchParams()
+  const searchParams = new URLSearchParams(
+    router.query as Record<string, string>
+  );
 
   const handleLimitChange = (newLimit: number) => {
     dispatch(searchResultsActions.setLimit(newLimit))
@@ -46,7 +49,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
     ) : (
       searchResults.map((cat: CatBreed) => (
         <Link
-          href={`/?${router.query}&details=${cat.id}`}
+          href={`/?${searchParams}&details=${cat.id}`}
           key={cat.id}
           data-testid={`cat-${cat.id}`}
           role="link"

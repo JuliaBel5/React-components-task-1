@@ -16,17 +16,18 @@ export const CatCard: React.FC<object> = () => {
   const { searchTerm } = useAppSelector((state) => state.search)
   const { currentPage, limit } = useAppSelector((state) => state.searchResults)
   const dispatch = useAppDispatch()
-  
+
   const router = useRouter();
- /*router.push({
-    pathname: router.pathname,
-    query: {
-      urlSearchTerm: searchTerm.trim(),
-      page: currentPage.toString(),
-      limit: limit.toString(),
-    },
-  });*/
-  const details = router.query["details"] as string | undefined;
+  /*router.push({
+     pathname: router.pathname,
+     query: {
+       urlSearchTerm: searchTerm.trim(),
+       page: currentPage.toString(),
+       limit: limit.toString(),
+     },
+   });*/
+  const details = router.query.details as string | undefined;
+  console.log("details:", details)
 
   if (!details) return null;
 
