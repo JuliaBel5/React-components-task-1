@@ -17,11 +17,11 @@ export const SearchInput: React.FC<object> = () => {
 
 
   const [getCats, { data: cats }] = useLazyGetCatsQuery()
- 
+
 
   async function getServerSideProps() {
     const cats = getCats({ page: currentPage, limit, breed: searchTerm.trim() })
-    
+
     return { props: { cats } }
   }
 
@@ -31,6 +31,7 @@ export const SearchInput: React.FC<object> = () => {
     router.push({
       pathname: router.pathname,
       query: {
+        ...router.query,
         urlSearchTerm: searchTerm.trim(),
         page: currentPage.toString(),
         limit: limit.toString(),
@@ -39,8 +40,8 @@ export const SearchInput: React.FC<object> = () => {
   }, [currentPage, limit, router, searchTerm]);
 
   useEffect(() => {
-   // getCats({ page: currentPage, limit, breed: searchTerm.trim() })
-   getServerSideProps()
+    // getCats({ page: currentPage, limit, breed: searchTerm.trim() })
+    getServerSideProps()
   }, [currentPage, limit])
 
 

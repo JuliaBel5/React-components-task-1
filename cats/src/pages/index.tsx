@@ -18,6 +18,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export const CatList: React.FC<CatSearchProps> = () => {
+
+  const router = useRouter()
   const {
     searchResults,
     currentPage,
@@ -44,7 +46,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
     ) : (
       searchResults.map((cat: CatBreed) => (
         <Link
-          href={`/?details=${cat.id}`}
+          href={`/?${router.query}&details=${cat.id}`}
           key={cat.id}
           data-testid={`cat-${cat.id}`}
           role="link"
@@ -81,7 +83,7 @@ export const CatList: React.FC<CatSearchProps> = () => {
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
       <div className="card-container">
-       <CatCard/> 
+        <CatCard />
       </div>
     </div>
   )
