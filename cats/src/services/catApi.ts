@@ -1,10 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { HYDRATE } from 'next-redux-wrapper'
 
 const baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
 
 export const catApi = createApi({
   reducerPath: 'catApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getCats: builder.query<Results, GetCatsArg>({
       query: ({ page = 1, limit = 6, breed = '' }) =>
@@ -18,7 +24,7 @@ export const catApi = createApi({
 
 
 
-export const { useGetCatsQuery, useGetBreedQuery, useLazyGetCatsQuery } = catApi
+export const { useGetCatsQuery, useGetBreedQuery, useLazyGetCatsQuery, util: { getRunningQueriesThunk }, } = catApi
 
 
 

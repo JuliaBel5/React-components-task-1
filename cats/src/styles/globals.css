@@ -182,6 +182,7 @@ label {
 .modal-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   border-left: 2px solid rgb(107, 100, 100);
 }
 
@@ -221,6 +222,8 @@ label {
 
 
 .cat-card {
+  display: flex;
+  flex-direction: column;
    z-index: 2;
   flex: 1 2 auto;
   max-width: 300px;
@@ -233,6 +236,7 @@ label {
   background: linear-gradient(to right, #f3ede7, #f8e6ca 50%, #f4d0a6 50%, #f6cc97 100%) ;
   transition: 0.4s;
   cursor: pointer;
+  align-items: center;
 }
 
 .cat-card:hover {

@@ -7,7 +7,9 @@ import {
   useAppSelector,
 } from '../../features/searchResultsSlice'
 import { searchActions } from '../../features/searchSlice'
-import { CatBreed, useLazyGetCatsQuery } from '../../services/catApi'
+import { Results, useLazyGetCatsQuery } from '../../services/catApi'
+
+
 
 
 export const SearchInput: React.FC<object> = () => {
@@ -17,13 +19,8 @@ export const SearchInput: React.FC<object> = () => {
 
 
   const [getCats, { data: cats }] = useLazyGetCatsQuery()
-
-
-  async function getServerSideProps() {
-    const cats = getCats({ page: currentPage, limit, breed: searchTerm.trim() })
-
-    return { props: { cats } }
-  }
+ 
+ 
 
   const router = useRouter();
 
@@ -37,14 +34,12 @@ export const SearchInput: React.FC<object> = () => {
         limit: limit.toString(),
       },
     });
-    console.log(router.query)
+    
   }, [currentPage, limit, searchTerm]);
 
   useEffect(() => {
-    // getCats({ page: currentPage, limit, breed: searchTerm.trim() })
-    getServerSideProps()
+    getCats({ page: currentPage, limit, breed: searchTerm.trim() })
   }, [currentPage, limit])
-
 
 
 
@@ -71,7 +66,7 @@ export const SearchInput: React.FC<object> = () => {
         limit: limit.toString(),
       },
     });
-    getServerSideProps()
+    getCats({ page: currentPage, limit, breed: searchTerm.trim() })
   }
 
   const handleKeyPress = (event: { key: string }) => {

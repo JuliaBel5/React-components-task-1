@@ -3,6 +3,7 @@ import { searchResultsReducer } from '../features/searchResultsSlice'
 import { searchReducer } from '../features/searchSlice'
 import { catApi } from '../services/catApi'
 
+
 export const store: Store = configureStore({
   reducer: {
     search: searchReducer,
@@ -11,4 +12,6 @@ export const store: Store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(catApi.middleware),
+    
 })
+

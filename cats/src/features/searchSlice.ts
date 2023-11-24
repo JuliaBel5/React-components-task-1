@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {createWrapper, HYDRATE} from 'next-redux-wrapper';
+
 
 //const searchTermFromLocalStorage = localStorage.getItem('searchTerm')
 
@@ -17,6 +19,16 @@ export const searchSlice = createSlice({
       localStorage.setItem('searchTerm', action.payload)
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+        console.log('HYDRATE', action.payload);
+
+        return {
+            ...state,
+            ...action.payload.subjectPage,
+        };
+    },
+},
 })
 
 export const { reducer: searchReducer, actions: searchActions } = searchSlice

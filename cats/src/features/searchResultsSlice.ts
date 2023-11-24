@@ -3,6 +3,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { catApi } from '../services/catApi'
 import { CatBreed } from '../services/catApi'
 import { store } from '../store/store'
+import {createWrapper, HYDRATE} from 'next-redux-wrapper';
+
 
 export interface SearchResultsState {
   searchResults: CatBreed[]
@@ -54,7 +56,7 @@ export const searchResultsSlice = createSlice({
       state.cat = action.payload
     },
   },
-  extraReducers: (builder) => {
+  /*extraReducers: (builder) => {
     builder
       .addMatcher(catApi.endpoints.getCats.matchPending, (state) => {
         state.isLoadingCats = true
@@ -74,7 +76,17 @@ export const searchResultsSlice = createSlice({
       .addMatcher(catApi.endpoints.getBreed.matchRejected, (state) => {
         state.isLoadingCat = false
       })
+},*/
+extraReducers: {
+  [HYDRATE]: (state, action) => {
+      console.log('HYDRATE system', action.payload);
+
+      return {
+          ...state,
+          ...action.payload.system,
+      };
   },
+},
 })
 
 export const { reducer: searchResultsReducer, actions: searchResultsActions } =
