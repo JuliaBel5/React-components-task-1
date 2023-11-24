@@ -1,10 +1,10 @@
-import { configureStore, Store } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { searchResultsReducer } from "../features/searchResultsSlice";
 import { searchReducer } from "../features/searchSlice";
 import { catApi } from "../services/catApi";
-import { createWrapper } from "next-redux-wrapper";
+import { createWrapper, MakeStore } from "next-redux-wrapper";
 
-export const store: Store =
+export const store =
   configureStore({
     reducer: {
       search: searchReducer,
@@ -15,6 +15,7 @@ export const store: Store =
       getDefaultMiddleware().concat(catApi.middleware),
     devTools: true,
   });
+
 const makeStore = () => store
 
 export type AppStore = ReturnType<typeof makeStore>;

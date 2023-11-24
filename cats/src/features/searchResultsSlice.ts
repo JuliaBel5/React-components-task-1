@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { catApi } from '../services/catApi'
 import { CatBreed } from '../services/catApi'
-import {createWrapper, HYDRATE} from 'next-redux-wrapper';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { store, wrapper } from "@/store/store";
 
 
@@ -77,16 +77,14 @@ export const searchResultsSlice = createSlice({
         state.isLoadingCat = false
       })
 },*/
-extraReducers: {
-  [HYDRATE]: (state, action) => {
-      console.log('HYDRATE system', action.payload);
-
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
       return {
-          ...state,
-          ...action.payload.system,
+        ...state,
+        ...action.payload.system,
       };
+    },
   },
-},
 })
 export const { reducer: searchResultsReducer, actions: searchResultsActions } =
   searchResultsSlice

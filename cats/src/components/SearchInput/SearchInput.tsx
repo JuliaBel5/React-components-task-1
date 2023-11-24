@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useRouter } from "next/router";
 import {
   searchResultsActions,
@@ -9,19 +9,11 @@ import {
 import { searchActions } from '../../features/searchSlice'
 import { Results, useLazyGetCatsQuery } from '../../services/catApi'
 
-
-
-
 export const SearchInput: React.FC<object> = () => {
   const { searchTerm } = useAppSelector((state) => state.search)
+  const inputRef = useRef<HTMLInputElement>(null)
   const { currentPage, limit } = useAppSelector((state) => state.searchResults)
   const dispatch = useAppDispatch()
-
-
-  const [getCats, { data: cats }] = useLazyGetCatsQuery()
- 
- 
-
   const router = useRouter();
 
   useEffect(() => {
@@ -34,39 +26,22 @@ export const SearchInput: React.FC<object> = () => {
         limit: limit.toString(),
       },
     });
-    
   }, [currentPage, limit, searchTerm]);
 
-  useEffect(() => {
-    getCats({ page: currentPage, limit, breed: searchTerm.trim() })
-  }, [currentPage, limit])
-
-
-
-  useEffect(() => {
-    if (cats) {
-      dispatch(searchResultsActions.setSearchResults(cats.items))
-      dispatch(searchResultsActions.setTotalPages(cats.meta.total_pages))
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cats])
-
-  const handleSearchInputChange = (event: { target: { value: string } }) => {
-    dispatch(searchActions.setSearchTerm(event.target.value))
-  }
-
   const handleSearchButtonClick = () => {
-    localStorage.setItem('searchTerm', searchTerm.trim())
+    const value = inputRef?.current?.value ?? ''
+
     dispatch(searchResultsActions.setCurrentPage(1))
+    dispatch(searchActions.setSearchTerm(value))
+
     router.push({
       pathname: router.pathname,
       query: {
-        urlSearchTerm: searchTerm.trim(),
-        page: currentPage.toString(),
+        urlSearchTerm: value.trim(),
+        page: 1,
         limit: limit.toString(),
       },
     });
-    getCats({ page: currentPage, limit, breed: searchTerm.trim() })
   }
 
   const handleKeyPress = (event: { key: string }) => {
@@ -76,10 +51,10 @@ export const SearchInput: React.FC<object> = () => {
   return (
     <div className="input-container">
       <input
+        ref={inputRef}
         type="text"
-        value={searchTerm}
-        onChange={handleSearchInputChange}
-        onKeyPress={handleKeyPress}
+        defaultValue={searchTerm}
+        onKeyDown={handleKeyPress}
         placeholder="Please, enter a cat breed"
         className="input-field"
       />

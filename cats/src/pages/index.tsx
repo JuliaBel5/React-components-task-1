@@ -16,39 +16,28 @@ import CatCard from "../components/CatCard";
 import Link from 'next/link'
 import { searchReducer, searchActions } from '../features/searchSlice'
 import { useRouter } from 'next/router'
+import { InferGetServerSidePropsType } from 'next'
 import { wrapper } from '@/store/store'
 
-/*export async function getServerSideProps(context: { query: { page: number; limit: number; breed: string } }) { 
- 
-  const baseUrl = 'https://2ff5030c446d8ca4.mokky.dev/breeds'
-  
-    const page = context.query.page || 1;
-    const limit = context.query.limit || 6;
-    const breed = context.query.breed || '';
-  const response = await fetch(`${baseUrl}?name=*${breed}&page=${page}&limit=${limit}`)
-  const data = await response.json() as Results
-    console.log(data)
-
-    return {
-      props: {
-        data,
-    }
-  }
-}*/
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    console.log(12312);
+    let breedData: CatBreed | null = null
 
     const searchParams = new URLSearchParams(
       context.query as Record<string, string>
     );
-    const breed = searchParams.get("breed") || "";
+
+    const breed = searchParams.get("urlSearchTerm") || "";
     const limit = +(searchParams.get("limit") || 6);
     const page = +(searchParams.get("page") || 1);
 
-    console.log("DISPATCH");
+    const detailsID = searchParams.get('details')
 
-    store.dispatch(
+    if (detailsID) {
+      breedData = (await store.dispatch(catApi.endpoints.getBreed.initiate(detailsID))).data ?? null
+    }
+
+    const { data } = await store.dispatch(
       catApi.endpoints.getCats.initiate({
         breed,
         limit,
@@ -56,34 +45,29 @@ export const getServerSideProps = wrapper.getServerSideProps(
       })
     );
 
-   const data = await Promise.all(store.dispatch(catApi.util.getRunningQueriesThunk()));
-
-    console.log("SERVER STATE", store.getState().catApi);
+    await Promise.all(store.dispatch(catApi.util.getRunningQueriesThunk()));
 
     return {
       props: {
-        data
+        data,
+        breedData
       },
     };
   }
 );
-export const CatList: React.FC<CatListProps> = ({data}) => {
 
-
+export const CatList = ({ data, breedData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const dispatch = useAppDispatch()
   const router = useRouter()
-  console.log(router.query.urlSearchTerm, router.query.page, router.query.limit)
+
+  dispatch(searchResultsActions.setTotalPages(data?.meta.total_pages))
+
   const {
-    searchResults,
     currentPage,
     limit,
     totalPages,
-    isLoading,
-    isLoadingCats,
   } = useAppSelector((state) => state.searchResults)
 
-  const {searchTerm} = useAppSelector((state) => state.search)
-  const dispatch = useAppDispatch()
-  
   const searchParams = new URLSearchParams(
     router.query as Record<string, string>
   );
@@ -95,73 +79,49 @@ export const CatList: React.FC<CatListProps> = ({data}) => {
 
   const [error, setError] = useState(false);
 
-  
-  if (currentPage === 1 && limit ==6 && searchTerm === '' ) {
-  const breeds =
-  data.items && data.items.length === 0 ? (
-      <>
-        <h1 className="error-message">nothing found</h1>
-      </>
-    ) : (
-      data.items && data.items.map((cat: CatBreed) => (
-        <Link
-          href={`/?${searchParams}&details=${cat.id}`}
-          key={cat.id}
-          data-testid={`cat-${cat.id}`}
-          role="link"
-        >
-          <CatItem cat={cat} />
-        </Link>
-      ))
-    );
-      }
- 
-  const breeds =
-  searchResults && searchResults.length === 0 ? (
-      <>
-        <h1 className="error-message">nothing found</h1>
-      </>
-    ) : (
-      searchResults && searchResults.map((cat: CatBreed) => (
-        <Link
-          href={`/?${searchParams}&details=${cat.id}`}
-          key={cat.id}
-          data-testid={`cat-${cat.id}`}
-          role="link"
-        >
-          <CatItem cat={cat} />
-        </Link>
-      ))
-    )
-
-
   if (error) {
     throw new Error('ММММММММММММММММРРРРР')
   }
+
   return (
     <div className="search-results">
       <div className="container">
         <div className="error-button" />
         <div>
           <button
-            onClick={() => setError(true)}
+            // onClick={() => setError(true)}
             className="orange-gradient-button "
           >
             I don&apos;t like cats!
           </button>
         </div>
-        <SearchInput/>
+        <SearchInput />
         <div>
           <label htmlFor="limit">Limit:</label>
           <Select value={limit} onChange={handleLimitChange} />
         </div>
         <div className="results-container">
-          {isLoading || isLoadingCats ? <MoonSpinner /> : breeds}
+          {data && data.items.length === 0 ? (
+            <>
+              <h1 className="error-message">nothing found</h1>
+            </>
+          ) : (
+            data?.items.map((cat: CatBreed) => (
+              <Link
+                href={`/?${searchParams}&details=${cat.id}`}
+                key={cat.id}
+                data-testid={`cat-${cat.id}`}
+                role="link"
+              >
+                <CatItem cat={cat} />
+              </Link>
+            ))
+          )}
         </div>
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
       <div className="card-container">
-        <CatCard />
+        <CatCard data={breedData} />
       </div>
     </div>
   )
@@ -178,4 +138,4 @@ interface CatSearchProps {
 }
 type CatListProps = {
   data: Results;
- };
+};

@@ -15,11 +15,11 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
 
   const handlePageChange = (page: number) => {
     dispatch(searchResultsActions.setCurrentPage(page))
-  /*  setSearchParams({
-      urlSearchTerm: searchTerm.trim(),
-      page: page.toString(),
-      limit: limit.toString(),
-    })*/
+    /*  setSearchParams({
+        urlSearchTerm: searchTerm.trim(),
+        page: page.toString(),
+        limit: limit.toString(),
+      })*/
   }
 
   return (

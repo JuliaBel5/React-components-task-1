@@ -11,58 +11,22 @@ import {
 } from "../features/searchResultsSlice";
 import { catApi, CatBreed, useGetBreedQuery } from "../services/catApi";
 
-export const CatCard: React.FC<object> = () => {
+type CatCardProps = {
+  data: CatBreed | null
+}
 
-  const { searchTerm } = useAppSelector((state) => state.search)
-  const { currentPage, limit } = useAppSelector((state) => state.searchResults)
-  const dispatch = useAppDispatch()
+export const CatCard = ({ data }: CatCardProps) => {
+  if (!data) return null
 
-  const router = useRouter();
-  /*router.push({
-     pathname: router.pathname,
-     query: {
-       urlSearchTerm: searchTerm.trim(),
-       page: currentPage.toString(),
-       limit: limit.toString(),
-     },
-   });*/
-  const details = router.query.details as string | undefined;
-  console.log("details:", details)
-
-  if (!details) return null;
-
-  return <CatCardBody id={details} />;
+  return <CatCardBody data={data} />;
 };
 
-const CatCardBody = ({ id }: { id: string }) => {
-  const { isLoading, isLoadingCat } = useAppSelector(
-    (state) => state.searchResults
-  );
-
+const CatCardBody = ({ data: breed }: { data: CatBreed }) => {
   const router = useRouter();
-
-  const { data: breed } = useGetBreedQuery(id);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (breed) {
-      dispatch(searchResultsActions.setCat(breed));
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [breed]);
 
   const handleCloseButtonClick = () => {
     router.back();
   };
-  const handleContainerClick = () => {
-    router.back();
-  };
-
-  if (!breed || isLoading || isLoadingCat) {
-    return <MoonSpinner />;
-  }
 
   const { image, description, temperament, name } = breed;
 
