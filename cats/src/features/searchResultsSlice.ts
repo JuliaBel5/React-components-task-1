@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { catApi } from '../services/catApi'
 import { CatBreed } from '../services/catApi'
-import { store } from '../store/store'
 import {createWrapper, HYDRATE} from 'next-redux-wrapper';
+import { store, wrapper } from "@/store/store";
 
 
 export interface SearchResultsState {
@@ -88,7 +88,6 @@ extraReducers: {
   },
 },
 })
-
 export const { reducer: searchResultsReducer, actions: searchResultsActions } =
   searchResultsSlice
 

@@ -6,9 +6,9 @@ const baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
 export const catApi = createApi({
   reducerPath: 'catApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
-  extractRehydrationInfo(action, { reducerPath }) {
+  extractRehydrationInfo(action, {reducerPath}) {
     if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
+        return action.payload[reducerPath];
     }
   },
   endpoints: (builder) => ({
@@ -22,9 +22,7 @@ export const catApi = createApi({
   }),
 })
 
-
-
-export const { useGetCatsQuery, useGetBreedQuery, useLazyGetCatsQuery, util: { getRunningQueriesThunk }, } = catApi
+export const { useGetCatsQuery, useGetBreedQuery, useLazyGetCatsQuery } = catApi
 
 
 
