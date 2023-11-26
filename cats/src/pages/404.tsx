@@ -1,22 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Link from 'next/link'
-import {useEffect} from  'react'
-import {useRouter} from 'next/router'
+import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 
 const NotFound = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    setTimeout(() => {
-      router.push('/')
-    }, 5000)
-    }, [])
-
-   return (
+  return (
     <>
-  <h1 className="error-message">nothing found</h1>
-  <p>You will be redirected to the <Link href='/'><a>main page</a> in 5 seconds</Link></p>
-  </>
-  )
-}
-export default NotFound
+      <h1 className="error-message">nothing found</h1>
+      <p>
+        Please, go to the  {" "}
+        <Link href="/">
+          main page
+        </Link>
+      </p>
+    </>
+  );
+};
+// export default NotFound;
+export default dynamic(() => Promise.resolve(NotFound), { ssr: false });

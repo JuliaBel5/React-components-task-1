@@ -92,7 +92,7 @@ export const CatList = ({ data, breedData }: InferGetServerSidePropsType<typeof 
         <div className="error-button" />
         <div>
           <button
-            // onClick={() => setError(true)}
+           onClick={() => setError(true)}
             className="orange-gradient-button "
           >
             I don&apos;t like cats!
