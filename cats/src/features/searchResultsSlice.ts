@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { catApi } from '../services/catApi'
 import { CatBreed } from '../services/catApi'
@@ -56,35 +56,20 @@ export const searchResultsSlice = createSlice({
       state.cat = action.payload
     },
   },
-  /*extraReducers: (builder) => {
-    builder
-      .addMatcher(catApi.endpoints.getCats.matchPending, (state) => {
-        state.isLoadingCats = true
-      })
-      .addMatcher(catApi.endpoints.getCats.matchFulfilled, (state) => {
-        state.isLoadingCats = false
-      })
-      .addMatcher(catApi.endpoints.getCats.matchRejected, (state) => {
-        state.isLoadingCats = false
-      })
-      .addMatcher(catApi.endpoints.getBreed.matchPending, (state) => {
-        state.isLoadingCat = true
-      })
-      .addMatcher(catApi.endpoints.getBreed.matchFulfilled, (state) => {
-        state.isLoadingCat = false
-      })
-      .addMatcher(catApi.endpoints.getBreed.matchRejected, (state) => {
-        state.isLoadingCat = false
-      })
-},*/
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.system,
-      };
-    },
-  },
+	extraReducers(builder) {
+		builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
+			HYDRATE,
+			(state, action) => ({...state, ...action.payload.searchResults})
+		);
+	}
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     return {
+  //       ...state,
+  //       ...action.payload.system,
+  //     };
+  //   },
+  // },
 })
 export const { reducer: searchResultsReducer, actions: searchResultsActions } =
   searchResultsSlice

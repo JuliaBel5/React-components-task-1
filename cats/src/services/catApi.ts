@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
+import fetchFn from 'whatwg-fetch'
 
 const baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
 
 export const catApi = createApi({
   reducerPath: 'catApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, fetchFn }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];

@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper';
 import { catApi } from '../services/catApi'
+import { store } from '@/store/store';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export interface SearchTermState {
   searchTerm: string
@@ -18,14 +20,17 @@ export const searchSlice = createSlice({
       state.searchTerm = action.payload
     },
   },
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.subjectPage,
-      };
-    },
-  },
+	extraReducers(builder) {
+		builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
+			HYDRATE,
+			(state, action) => ({...state, ...action.payload.search})
+		);
+	}
 })
 
 export const { reducer: searchReducer, actions: searchActions } = searchSlice
+
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch = useDispatch<AppDispatch>

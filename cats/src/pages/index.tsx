@@ -60,7 +60,10 @@ export const CatList = ({ data, breedData }: InferGetServerSidePropsType<typeof 
   const dispatch = useAppDispatch()
   const router = useRouter()
 
-  dispatch(searchResultsActions.setTotalPages(data?.meta.total_pages))
+  useEffect(() => {
+    dispatch(searchResultsActions.setTotalPages(data?.meta.total_pages));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.meta.total_pages]);
 
   const {
     currentPage,
