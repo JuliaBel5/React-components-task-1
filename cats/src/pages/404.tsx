@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 
-const NotFound = () => {
+export const NotFound = () => {
   const router = useRouter();
 
   return (

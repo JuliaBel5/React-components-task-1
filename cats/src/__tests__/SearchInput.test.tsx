@@ -1,24 +1,12 @@
-import { SearchInput } from "@/components/SearchInput/SearchInput"
-import { store } from "@/store/store"
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { ReactNode } from 'react'
-import { createMockRouter } from '@/tests-utils/createMockRouter';
-import router from "next/router"
-import { useRouter } from 'next/router'
+
+import { render, screen, waitFor } from '@testing-library/react'
 import React from "react"
 import { Provider } from "react-redux"
-import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
-import { CatList } from "@/pages";
-
-
 import Home, { getServerSideProps } from "@/pages";
-import { act,  within } from "@testing-library/react";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 import nock from "nock";
 import { wrapper } from "@/store/store";
-
-import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider";
 
 
