@@ -35,6 +35,7 @@ export const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="pagination-button"
+        data-testid="dec"
       >
         &laquo;
       </button>

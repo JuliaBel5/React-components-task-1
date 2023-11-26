@@ -1,5 +1,5 @@
 import Home, { getServerSideProps } from "@/pages";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { createRequest, createResponse } from "node-mocks-http";
 import nock from "nock";
@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import mockRouter from "next-router-mock";
 import { MemoryRouterProvider } from "next-router-mock/MemoryRouterProvider";
 import { act } from "react-dom/test-utils";
+import { Select } from "@/components/Select/Select";
 
 const mockItems = [
   {
@@ -112,21 +113,58 @@ describe("Home", () => {
     const { rerender } = render(<App />, { wrapper: MemoryRouterProvider });
 
     expect(screen.getByText("Test Cat 2"));
+    //Next Page
     const inc = screen.getByTestId("inc");
-
+    // Click on Next Page
     act(() => {
       inc.click();
     });
 
+
+    
     await act(async () => {
       pageProps = await getServerSideProps(gsspCtx({ query: { page: '2' } }));
     });
 
     rerender(<App />);
+    //Verifies that the page is 2 with the correct content
     expect(mockRouter.asPath.includes("page=2")).toBeTruthy();
     expect(screen.getByText("Test Cat 3"));
 
-       
+    //Prev page
+    const dec = screen.getByTestId("dec");
+
+
+    //Click on the Prev page
+    act(() => {
+      dec.click();
+    });
+
+    await act(async () => {
+      pageProps = await getServerSideProps(gsspCtx({ query: { page: '1' } }));
+    });
+
+    rerender(<App />);
+      //Verifies that the page is 1  with the correct content
+    expect(mockRouter.asPath.includes("page=1")).toBeTruthy();
+    expect(screen.getByText("Test Cat 2"));
        
   });
+
+  it("Render Select", () => {
+    // Mock the onChange function
+    const mockOnChange = jest.fn();
+
+    // Render the Select component with initial value and mockOnChange function
+    const { getByDisplayValue, getByTestId } = render(
+      <Select value={1} onChange={mockOnChange} />
+    );
+    // Check if options are rendered correctly
+    expect(getByDisplayValue("1")).toBeInTheDocument();
+
+    // Simulate a change event and check if onChange is called with the correct value
+    fireEvent.change(getByTestId("select"), { target: { value: "5" } });
+    expect(mockOnChange).toHaveBeenCalledWith(5);
+  });
 });
+

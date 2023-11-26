@@ -48,7 +48,7 @@ describe("Home", () => {
     if (!hasProps) throw new AssertionError("no props");
   }
 
-  it("renders a heading", async () => {
+  it("renders the app", async () => {
     jest.mock("next/router", () => jest.requireActual("next-router-mock"));
 
     nock("https://2ff5030c446d8ca4.mokky.dev")

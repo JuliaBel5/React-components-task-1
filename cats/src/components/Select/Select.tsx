@@ -2,7 +2,7 @@ export const Select: React.FC<{
   value: number
   onChange: (value: number) => void
 }> = ({ value, onChange }) => (
-  <select value={value} onChange={(e) => onChange(Number(e.target.value))}>
+  <select data-testid="select" value={value} onChange={(e) => onChange(Number(e.target.value))}>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>

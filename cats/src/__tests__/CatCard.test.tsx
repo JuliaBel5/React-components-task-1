@@ -63,7 +63,7 @@ describe("Home", () => {
     if (!hasProps) throw new AssertionError("no props");
   }
 
-  it("renders a heading", async () => {
+  it("should close CatCard on Close button and should show the correct number of items", async () => {
     jest.mock("next/router", () => jest.requireActual("next-router-mock"));
 
     nock("https://2ff5030c446d8ca4.mokky.dev")
@@ -158,10 +158,12 @@ describe("Home", () => {
     });
 
     rerender(<App />);
-    cat4Close = screen.queryByTestId("close-Test Cat 4");
-    expect(screen.queryByText("Close"));
+  
+    // verifies that the card is closed
+    expect(screen.queryByText("Close")).toBeNull();
+    expect(screen.queryByTestId('cat-card')).toBeNull()
 
-    
+
 
  // Verify the number of CatItems displayed
     await waitFor(async () => {

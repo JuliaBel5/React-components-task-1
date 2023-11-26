@@ -97,12 +97,14 @@ describe("Home", () => {
 
  const searchInput = screen.getByPlaceholderText('Please, enter a cat breed')
  const searchButton = screen.getByText('Search')
+ const select = screen.getByText('6')
 
 
 
   await waitFor(async () => {
     expect(searchInput).toBeInTheDocument()
     expect(searchButton).toBeInTheDocument()
+    expect(select).toBeInTheDocument()
   })
 })
 })
