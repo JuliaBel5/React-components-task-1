@@ -80,6 +80,8 @@ export const CatList = ({ data, breedData }: InferGetServerSidePropsType<typeof 
     dispatch(searchResultsActions.setCurrentPage(1))
   }
 
+
+  
   const [error, setError] = useState(false);
 
   if (error) {

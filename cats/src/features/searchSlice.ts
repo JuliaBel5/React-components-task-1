@@ -20,12 +20,12 @@ export const searchSlice = createSlice({
       state.searchTerm = action.payload
     },
   },
-	extraReducers(builder) {
-		builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
-			HYDRATE,
-			(state, action) => ({...state, ...action.payload.search})
-		);
-	}
+  extraReducers(builder) {
+    builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
+        HYDRATE,
+        (state, action) => ({...state})
+    );
+}
 })
 
 export const { reducer: searchReducer, actions: searchActions } = searchSlice

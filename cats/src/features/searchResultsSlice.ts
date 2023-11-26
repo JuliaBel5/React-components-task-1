@@ -56,20 +56,14 @@ export const searchResultsSlice = createSlice({
       state.cat = action.payload
     },
   },
-	extraReducers(builder) {
-		builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
-			HYDRATE,
-			(state, action) => ({...state, ...action.payload.searchResults})
-		);
-	}
-  // extraReducers: {
-  //   [HYDRATE]: (state, action) => {
-  //     return {
-  //       ...state,
-  //       ...action.payload.system,
-  //     };
-  //   },
-  // },
+
+  extraReducers(builder) {
+    builder.addCase<typeof HYDRATE, PayloadAction<RootState, typeof HYDRATE>>(
+        HYDRATE,
+        (state, action) => ({...state})
+    );
+}
+
 })
 export const { reducer: searchResultsReducer, actions: searchResultsActions } =
   searchResultsSlice
