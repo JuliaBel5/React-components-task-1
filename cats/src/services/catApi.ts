@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
+//@ts-ignore
 import fetchFn from 'whatwg-fetch'
 
 const baseUrl = `https://2ff5030c446d8ca4.mokky.dev/breeds`
